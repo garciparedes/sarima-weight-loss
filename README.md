@@ -1,4 +1,4 @@
-# SARIMA Exercises
+# SARIMA Weight Loss
 
 ## Description
 [TODO]
