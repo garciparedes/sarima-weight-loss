@@ -7,4 +7,4 @@
 [TODO]
 
 ## Author
-* [Sergio García Prado](https://garcipardes.me)
+* [Sergio García Prado](https://garciparedes.me)
