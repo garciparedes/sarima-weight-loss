@@ -23,8 +23,8 @@ RangeMean <- function(x, seasonality) {
     as.data.frame()
 }
 
-Correlogram <- function(x, n = length(x) - 1, with.first = FALSE) {
-    result <- acf(x, lag.max=n, plot=FALSE)$acf[1:n + !with.first]
+Correlogram <- function(x, n = length(x) - 1) {
+    result <- acf(x, lag.max=n, plot=FALSE)$acf[0:n]
     data.frame(lag = 1:length(result), values = result)
 }
 
@@ -45,6 +45,10 @@ PlotTimeSeries <- function(df, seasonality, armonics = c(), lags = MAX_LAG){
         ylab("Valor") +
         geom_hline(yintercept = 0, color = "gray") +
         geom_line() +
+        theme_bw() +
+        # scale_x_continuous(breaks = scales::pretty_breaks(n = 10)) +
+        theme(plot.title = element_text(hjust = 0.5),
+              panel.border = element_rect(colour = "black", fill=NA)) +
         ggtitle('Serie')
 
     p.b <- ggplot(RangeMean(df$values, seasonality)) +
@@ -53,7 +57,11 @@ PlotTimeSeries <- function(df, seasonality, armonics = c(), lags = MAX_LAG){
         xlab("Media") +
         ylab("Rango") +
         expand_limits(y=0) +
+        theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5),
+              panel.border = element_rect(colour = "black", fill=NA)) +
         ggtitle('Rango-Media')
+
     p.c <- ggplot(Correlogram(df$values, lags)) +
         aes(x = lag, y = values) +
         xlab("Retardo") +
@@ -61,6 +69,9 @@ PlotTimeSeries <- function(df, seasonality, armonics = c(), lags = MAX_LAG){
         geom_bar(stat="identity") +
         geom_hline(yintercept = 2/sqrt(nrow(df)), color = "red") +
         geom_hline(yintercept = -2/sqrt(nrow(df)), color = "red") +
+        theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5),
+              panel.border = element_rect(colour = "black", fill=NA)) +
         ggtitle('Correlograma')
 
     p.partial.correlogram <- ggplot(PartialCorrelogram(df$values, lags)) +
@@ -70,12 +81,19 @@ PlotTimeSeries <- function(df, seasonality, armonics = c(), lags = MAX_LAG){
         geom_bar(stat="identity") +
         geom_hline(yintercept = 2/sqrt(nrow(df)), color = "red") +
         geom_hline(yintercept = -2/sqrt(nrow(df)), color = "red") +
+        theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5),
+              panel.border = element_rect(colour = "black", fill=NA)) +
         ggtitle('Correlograma Parcial')
+
     p.d <- ggplot(Periodogram(df$values)) +
         aes(x = freq, y = spec) +
         xlab("Frecuencia") +
         ylab("Valor") +
         geom_line() +
+        theme_bw() +
+        theme(plot.title = element_text(hjust = 0.5),
+              panel.border = element_rect(colour = "black", fill=NA)) +
         ggtitle('Periodograma')
 
     for (a in armonics) {
@@ -84,6 +102,7 @@ PlotTimeSeries <- function(df, seasonality, armonics = c(), lags = MAX_LAG){
     plot_grid(p.a, plot_grid(p.c, p.partial.correlogram, p.d, p.b, ncol = 2),
               ncol = 1, rel_heights = c(1, 2))
 }
+
 
 BASE_PATH <- './'
 BASE_IMG_PATH <- paste0(BASE_PATH, 'res/img/')
@@ -97,12 +116,37 @@ PlotTimeSeries(weightloss, seasonality = 12, lags = 84) %>%
   { save_plot(paste0(BASE_IMG_PATH, 'weightloss.png'), .,
              base_aspect_ratio = 1, base_height = 12) }
 
-weightloss.diff <- data.frame(index = 1:(nrow(weightloss) - 1), values=diff(weightloss$values, 1))
-PlotTimeSeries(weightloss.diff, seasonality = 12, lags = 84) %>%
- { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff.png'), .,
+
+values <- diff(weightloss$values, 1, 1)
+df <- data.frame(index = 1:length(values), values=values)
+PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
+ { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1.png'), .,
             base_aspect_ratio = 1, base_height = 12) }
 
-weightloss.diff12 <- data.frame(index = 1:(168), values=(diff(weightloss$values, 1, 12)))
-PlotTimeSeries(weightloss.diff12, seasonality = 12, lags = 84) %>%
- { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff12.png'), .,
+
+values <- diff(weightloss$values, 12, 1)
+df <- data.frame(index = 1:length(values), values=values)
+PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
+ { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-12.png'), .,
+            base_aspect_ratio = 1, base_height = 12) }
+
+
+values <- diff(diff(weightloss$values, 1, 1), 12, 1)
+df <- data.frame(index = 1:length(values), values=values)
+PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
+ { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-12.png'), .,
+            base_aspect_ratio = 1, base_height = 12) }
+
+
+values <- diff(diff(weightloss$values, 1, 2), 12, 1)
+df <- data.frame(index = 1:length(values), values=values)
+PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
+ { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-1-12.png'), .,
+            base_aspect_ratio = 1, base_height = 12) }
+
+
+values <- diff(diff(weightloss$values, 1, 2), 12, 2)
+df <- data.frame(index = 1:length(values), values=values)
+PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
+ { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-1-12-12.png'), .,
             base_aspect_ratio = 1, base_height = 12) }
