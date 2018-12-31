@@ -23,6 +23,8 @@
 
 \usepackage[hidelinks]{hyperref}
 
+\usepackage[inline]{enumitem}
+
 \usepackage{minted}
 \setminted[SAS]{tabsize=1,fontsize=\footnotesize,frame=single,framesep=5pt}
 \setminted[R]{tabsize=1,fontsize=\footnotesize,frame=single,framesep=5pt}
@@ -33,11 +35,6 @@
 \fancyfoot{}
 \fancyhead[C]{ \today \ $\bullet$ \mysubject \ $\bullet$ \mytitle }
 \fancyfoot[C]{\thepage}
-
-\addto\extrasspanish{%
-  \def\sectionautorefname{Apartado}
-  \def\subsectionautorefname{Subapartado}
-}
 
 \providecommand*{\listingautorefname}{Código Fuente}
 \renewcommand\listingscaption{Código Fuente}
