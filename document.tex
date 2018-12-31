@@ -72,28 +72,53 @@
     \label{sec:differences}
 
       \paragraph{}
-      [TODO]
+      Anteriormente, se ha realizado un análisis descriptivo acerca de la estructura de la serie \texttt{weightloss}, tras el cual se llegó a la conclusión de que la serie no presentaba la propiedad de estacionaridad (nivel y estructura de correlaciones constante para todas las observaciones). Por tanto, se indicó que para llegar a una serie estacionaria, la solución sería encontrar una diferenciación o varias diferenciaciones que transformen la serie en estacionaria.
+
+      \paragraph{}
+      Tal y como se indicó anteriormente, para conseguir la propiedad de estacionaridad dichas diferenciaciones podrían ser de dos tipos: \begin{enumerate*}[label=(\arabic*)]
+        \item diferenciación regular para reducir la componente de tendencia de la serie, y
+        \item diferenciación estacional de periodo 12 para reducir las correlaciones entre observaciones de un mismo índice estacionalidad.
+      \end{enumerate*} Entonces, la estrategia a seguir será la de probar entre distintas combinaciones de diferenciaciones (de orden reducido, ya que de no ser así entonces se producirían efectos tales como el aumento de la varianza de la serie).
+
+      \paragraph{}
+      Por tanto, para elegir el orden de diferenciación se han probado distintas alternativas. En la \autoref{table:variance_differences} se incluye una relación entre la varianza resultante de las observaciones de la serie y el orden de diferenciación de la misma. Tal y como se puede apreciar, la serie original tiene una varianza de $258.67$. Sin embargo, la de la serie tras aplicar una diferenciación regular y otra estacional es únicamente de $14.07$.
 
       \begin{table}[htb!]
         \centering
         \begin{tabular}{|l|r|}
             \hline
-            Diferencias & Varianza
+            \textbf{Serie} & \textbf{Varianza}
             \csvreader[head to column names]{res/data/variance-differences.csv}{}
             {\\ \hline \name & \variance}
             \\\hline
         \end{tabular}
-        \caption{[TODO]}
+        \caption{Relación entre distintos órdenes de diferenciación y varianza de la serie resultante.}
         \label{table:variance_differences}
       \end{table}
 
       \paragraph{}
-      [TODO]
+      Tanto por la reducida varianza, como por la propiedad de estacionaridad, finalmente escogerémos los grados de diferenciación $1$ para la componente regular y $1$ para la componente estacional. Sin embargo, a continuación se van a estudiar un poco más en detalle los resultados de la serie tras la aplicación de distintas diferenciaciones: En la \autoref{sec:regular_difference} se analiza la serie diferenciada regularmente y en la \autoref{sec:seasonal_difference} se analiza la serie diferenciada estacionalmente. Por último, en la \autoref{sec:regular_seasonal_difference} se muestra la serie diferenciada tanto regular como estacionalmente. Tal y como se ha indicado anteriormente, esta será la serie con la que se continuará el análisis y posterior ajuste.
 
       \subsubsection{Diferenciación regular}
+      \label{sec:regular_difference}
 
         \paragraph{}
-        [TODO]
+        La diferenciación regular consiste en la aplicación del operador $\nabla$ una vez a la serie objetivo. Esto es equivalente a multiplicar la misma por el término $(1 - B)$, donde $B$ consiste en el operador \emph{backward}, que genera como resultado la observación anterior. En la \autoref{eq:diff_1} se muestra la representación de la diferenciación regular. Esto consiste en substraer el valor de la observación actual a la anterior. Tras aplicar esta operación a todas las observaciones de la serie, se consigue la eliminación de una tendencia de carácter lineal. Nótese que para hacer esto, se están perdiendo $1$ observación.
+
+        \begin{equation}
+        \label{eq:diff_1}
+          \begin{split}
+            \nabla X_t
+            &= (1 - B) \cdot X_t \\
+            &= X_t - X_{t-1}
+          \end{split}
+        \end{equation}
+
+        \paragraph{}
+        En la \autoref{img:weightloss_diff_1} se muestran el gráfico de la serie, el correlograma, el correlograma Parcial, el periodograma y el diagrama de dispersión \emph{rango-media} para la serie tras la realización de una diferenciación regular.
+
+        \paragraph{}
+        Tal y como se puede apreciar en el gráfico de la serie, se ha eliminado la tendencia de la misma. Ahora la media está en torno al valor $0$, sobre el cual obscila. Sin embargo, se puede apreciar que la serie sigue teniendo una estructura estacional, que la diferenciación no ha podido eliminar. En el correlograma se puede apreciar que dicha estructura de estacionalidad (con las correlaciones múltiplos de 12 claramente marcadas) que estas presentan un decrecimiento de carácter lineal, lo cual indica que la serie no es estacionaria. En el correlograma parcia se puede apreciar la reducción de la correlación del primer retardo, lo cual era algo obvio tras la diferenciación regular. En cuanto al periodograma, ahora se pueden apreciar de una manera muy marcada los armónicos significativos, los cuales siguen la forma $i / 12$. Este es otro de los argumentos en favor de la diferenciación estacional, que se realizará en la \autoref{sec:seasonal_difference}. En cuanto al gráfico de dispersión \emph{rango-media}, se puede comprobar que ahora se ha conseguido controlar en mayor medida la relación entre el nivel y la dispersión, es decir, se ha estabilizado en mayor medida la varianza. Sin embargo, esto se conseguirá en mayor media en las diferenciaciones posteriores.
 
         \begin{figure}[htb!]
           \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{weightloss-diff-1}
@@ -101,11 +126,29 @@
           \label{img:weightloss_diff_1}
         \end{figure}
 
-      \subsubsection{Diferenciación estacional}
+        \paragraph{}
+        La aplicación de la una diferenciación regular a la serie \texttt{weightloss} ha repercutido de manera positiva sobre la misma desde el punto de vista de la estacionaridad (ahora se encuentra más cerca de cumplir dicha propiedad). Sin embargo, todavía no puede ser considerada estacionaria. A continuación probaremos la alternativa estacional y estudiaremos los resultados.
 
+      \subsubsection{Diferenciación estacional}
+      \label{sec:seasonal_difference}
 
         \paragraph{}
-        [TODO]
+        La diferenciación estacional se basa en las mismas ideas que la diferenciación regular descrita anteriormente. Sin embargo, en este caso se utiliza una notación de subíndices para indicar el retardo en que aplicar la diferenciación. Esto es, en lugar de substraer de la observación actual la inmediatamente anterior, se substrae la anterior respecto referida al mismo índice estacional. En nuestro caso, esto se refiere a substraer el valor del mismo mes del año anterior, esto es la observación $12$ posiciones hacia atrás. En la \autoref{eq:diff_12} se muestra la expresión de la diferenciación que se acaba de describir. Tal y como se puede apreciar, esta corresponde con la substracción de la observación $12$ posiciones hacia atrás. Si se aplica esta operación a todas las observaciones de la serie, entonces se consigue la serie diferenciada estacionalmente. Nótese que para hacer esto, se están perdiendo $12$ observaciones.
+
+        \begin{equation}
+        \label{eq:diff_12}
+          \begin{split}
+            \nabla_{12} X_t
+            &= (1 - B^12) \cdot X_t \\
+            &= X_t - X_{t - 12}
+          \end{split}
+        \end{equation}
+
+        \paragraph{}
+        En la \autoref{img:weightloss_diff_12} se muestran el gráfico de la serie, el correlograma, el correlograma parcial, el periodograma y el diagrama de dispersión \emph{rango-media} para la serie tras la realización de una diferenciación estacional (12 retardos).
+
+        \paragraph{}
+        En el gráfico de la serie se puede apreciar la eliminación de la estructura estacional tras la serie, pero no la tendencia de la misma. Ahora la serie obscila en torno a valores próximos a cero, pero la tendencia hace que este comportamiento no pueda ser considerado estacionario. En el correlograma sucede algo similar: en este caso se ha conseguido eliminar la estructura lineal de decrecimientos en las correlaciones de la estacionalidad, pudiéndose considerar ahora decrecimiento exponencial. Sin embargo, la componente regular no tiene una estructura de decrecimientos exponenciales, lo cual hacer rechazar la hipótesis de que la serie sea estacionaria. En cuanto al correlograma parcial, se puede apreciar que se han reducido drásticamente las correlaciones referidas a los múltiplos de la estacionalidad, pero siguen destacando en gran medida las correlaciones en las posiciones 1 y 13. Se cree que la primera correlación se debe a la componente de tendencia de la seria, siendo la del 13-ésimo retardo un reflejo estacional de esta. En cuanto al periodograma, se puede apreciar que el primer armónico destaca en gran medida sobre el resto, lo cual se cree que es debido a la tendencia de la serie. En cuanto al diagrama de dispersión \emph{rango-media}, se puede ver que la relación entre nivel y dispersión ha aumentado, lo cual es otro reflejo de que la serie resultante no es estacionaria.
 
         \begin{figure}[htb!]
           \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{weightloss-diff-12}
@@ -113,7 +156,23 @@
           \label{img:weightloss_diff_12}
         \end{figure}
 
+        \paragraph{}
+        La diferenciación estacional ha conseguido reducir en gran medida la componente estacional de la serie. Sin embargo ha dejado inalterada la tendencia de la misma, por lo que no se ha conseguido llegar a una serie estacionaria, que tomar de partida para el ajuste de un modelo autoregresivo con media móvil. Tal y como se verá a continuación, la serie se transforma en estacionaria tras aplicar una combinación de las dos diferenciaciones realizadas previamente. Esto es, la diferenciación regular y la diferenciación regular, que aisla tanto la tendencia de la serie, como la estructura estacional de la misma.
+
       \subsubsection{Diferenciación regular y estacional}
+      \label{sec:regular_seasonal_difference}
+
+        \paragraph{}
+        [TODO]
+
+        \begin{equation}
+          \begin{split}
+            \nabla \nabla_{12} X_t
+            &= (1 - B) \cdot (1 - B^{12}) \cdot X_t \\
+            &= (1 - B) \cdot (X_t - X_{t - 12}) \\
+            &= X_t - X_{t - 1} - X_{t - 12} + X_{t - 13}
+          \end{split}
+        \end{equation}
 
         \paragraph{}
         [TODO]
@@ -123,6 +182,9 @@
           \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie \texttt{weightloss} tras la realización de una diferenciación regular y otra diferención estacional (12 retardos).}
           \label{img:weightloss_diff_1_12}
         \end{figure}
+
+        \paragraph{}
+        [TODO]
 
     \paragraph{}
     [TODO]

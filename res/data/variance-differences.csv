@@ -1,9 +1,9 @@
 name,variance
-Base,258.67
-diff-1,62.92
-diff-12,49.09
-diff-12-12,86.28
-diff-1-12,14.07
-diff-1-12-12,42.11
-diff-1-1-12,34
-diff-1-1-12-12,99.44
+$X_{t}$,258.67
+$\nabla X_{t}$,62.92
+$\nabla_{12} X_{t}$,49.09
+$\nabla_{12}^{2} X_{t}$,86.28
+$\nabla \nabla_{12} X_{t}$,14.07
+$\nabla \nabla_{12}^{2} X_{t}$,42.11
+$\nabla^{2} \nabla_{12} X_{t}$,34
+$\nabla^{2} \nabla_{12}^{2} X_{t}$,99.44

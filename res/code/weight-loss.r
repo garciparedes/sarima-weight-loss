@@ -113,14 +113,14 @@ weightloss$Month <- ymd(weightloss$Month, truncated = 2)
 colnames(weightloss) <- c("index", "values")
 
 variances <- data.frame()
-variances <- rbind(variances, list(name="Base", variance=var(weightloss$values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$X_{t}$", variance=var(weightloss$values)), stringsAsFactors = FALSE)
 PlotTimeSeries(weightloss, seasonality = 12, lags = 84) %>%
   { save_plot(paste0(BASE_IMG_PATH, 'weightloss.png'), .,
              base_aspect_ratio = 1, base_height = 12) }
 
 
 values <- diff(weightloss$values, 1, 1)
-variances <- rbind(variances, list(name="diff-1", variance=var(values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$\\nabla X_{t}$", variance=var(values)), stringsAsFactors = FALSE)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
  { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1.png'), .,
@@ -128,7 +128,7 @@ PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
 
 
 values <- diff(weightloss$values, 12, 1)
-variances <- rbind(variances, list(name="diff-12", variance=var(values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$\\nabla_{12} X_{t}$", variance=var(values)), stringsAsFactors = FALSE)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
  { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-12.png'), .,
@@ -136,14 +136,14 @@ PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
 
 
 values <- diff(weightloss$values, 12, 2)
-variances <- rbind(variances, list(name="diff-12-12", variance=var(values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$\\nabla_{12}^{2} X_{t}$", variance=var(values)), stringsAsFactors = FALSE)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
  { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-12-12.png'), .,
             base_aspect_ratio = 1, base_height = 12) }
 
 values <- diff(diff(weightloss$values, 1, 1), 12, 1)
-variances <- rbind(variances, list(name="diff-1-12", variance=var(values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$\\nabla \\nabla_{12} X_{t}$", variance=var(values)), stringsAsFactors = FALSE)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
  { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-12.png'), .,
@@ -151,14 +151,14 @@ PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
 
 
 values <- diff(diff(weightloss$values, 1, 1), 12, 2)
-variances <- rbind(variances, list(name="diff-1-12-12", variance=var(values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$\\nabla \\nabla_{12}^{2} X_{t}$", variance=var(values)), stringsAsFactors = FALSE)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
   { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-12-12.png'), .,
             base_aspect_ratio = 1, base_height = 12) }
 
 values <- diff(diff(weightloss$values, 1, 2), 12, 1)
-variances <- rbind(variances, list(name="diff-1-1-12", variance=var(values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$\\nabla^{2} \\nabla_{12} X_{t}$", variance=var(values)), stringsAsFactors = FALSE)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
  { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-1-12.png'), .,
@@ -166,7 +166,7 @@ PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
 
 
 values <- diff(diff(weightloss$values, 1, 2), 12, 2)
-variances <- rbind(variances, list(name="diff-1-1-12-12", variance=var(values)), stringsAsFactors = FALSE)
+variances <- rbind(variances, list(name="$\\nabla^{2} \\nabla_{12}^{2} X_{t}$", variance=var(values)), stringsAsFactors = FALSE)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
  { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-1-12-12.png'), .,
