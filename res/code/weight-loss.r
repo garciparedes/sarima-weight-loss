@@ -24,7 +24,7 @@ RangeMean <- function(x, seasonality) {
 }
 
 Correlogram <- function(x, n = length(x) - 1) {
-    result <- acf(x, lag.max=n, plot=FALSE)$acf[0:n]
+    result <- acf(x, lag.max=n, plot=FALSE)$acf[1:n + 1]
     data.frame(lag = 1:length(result), values = result)
 }
 
@@ -174,3 +174,11 @@ PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
 
 variances$variance <- round(variances$variance, digits = 2)
 write.csv(variances, paste0(BASE_DATA_PATH, 'variance-differences.csv'), row.names = FALSE, quote = FALSE)
+
+
+arima(weightloss$values, c(0, 1, 0), list(order = c(0, 1, 1), period = 12), method = "ML")
+
+arima(weightloss$values, c(0, 1, 1), list(order = c(0, 1, 1), period = 12), method = "ML")
+
+
+arima(weightloss$values, c(0, 1, 1), list(order = c(0, 1, 0), period = 12), method = "ML")
