@@ -46,7 +46,7 @@
       En el gráfico de la serie de la \autoref{img:weightloss} se puede apreciar la evolución temporal de los valores a lo largo de los 15 años, separados en observaciones mensuales. En dicha representación destacan dos características de la serie temporal sobre el resto. Estas son:
         \begin{enumerate*}[label=(\arabic*)]
           \item la marcada estructura estacional de periodo 12 (anual) de la serie, que sigue la misma forma en todas las estacionalidades (años). Esto es un fuerte crecimiento durante el primer mes (Enero), posteriormente se produce un suave decrecimiento hasta el tercer cuarto del año, para producirse un fuerte decrecimiento en torno a los meses de Septiembre - Octubre. Esta estructura estacional es coherente con el fenómeno conocido como \emph{Operación Bikini}, que consiste en la preocupación por estar en buena forma física durante los meses de verano. Esta preocupación comienza en torno a principios de año y se mantiene hasta los meses de verano. Puesto que una vez pasados dichos meses, la forma física deja de estar comprometida, la preocupación por la pérdida de peso de la población también disminuye.
-          \item el cambio de nivel que se produce entre el año $2008$ y el año $2009$. Durante este periodo se produce un cambio drástico en el nivel de la serie. Parece que durante el final del año $2008$ no se produjo el fenómeno esperado de un fuerte decrecimiento que sí se produce durante el resto de años. Este cambio en el nivel de la serie pudo deberse a distintos factores, entre los que destaca la crisis económica que comenzó en dicho año. Si se confirma que las razones del aumento del nivel en las búsquedas del término \emph{Weight loss} fueron debidas a la crisis económica, una interpretación para la misma podría ser la siguiente: Con el aumento del riesgo en la estabilidad financiera, la población aumentó también su preocupación en su apariencia física, lo cual se ha mantenido hasta la actualidad. Otros factores podrían ser el acercamiento de la tecnología y redes sociales al gran público, que hasta entonces se habían mantenido alejadas del mismo.
+          \item el cambio de nivel que se produce entre el año $2008$ y el año $2009$. Durante este periodo se produce un cambio drástico en el nivel de la serie. Parece que durante el final del año $2008$ no se produjo el fenómeno esperado de un fuerte decrecimiento que sí se produce durante el resto de años. Este cambio en el nivel de la serie pudo deberse a distintos factores. Uno de ellos pudo ser la crisis económica cuyas evidencias comonezaron en torno a dicho año. Si se confirmase que las razones del aumento del nivel en las búsquedas del término \emph{Weight loss} fueron debidas a la crisis económica, una interpretación para la misma podría ser la siguiente: Con el aumento del riesgo en la estabilidad financiera, la población aumentó también su preocupación en su apariencia física, lo cual se ha mantenido hasta la actualidad. Otro de los factores de peso pudo haber sido el acercamiento de la tecnología y redes sociales a la mayoría de la población, que hasta entonces se había mantenido alejada de ella. Dado que muchas redes sociales permiten la posibilidad de incluir imágenes personales que otras personas pueden juzgar, el índice de preocupación por el nivel de forma física puede haberse incrementado en los últimos años debido a dicha razón. Sin embargo, estas interpretaciones queda fuera del objetivo de este trabajo.
         \end{enumerate*}
 
       \begin{figure}[htb!]
@@ -195,58 +195,289 @@
     \label{sec:proposed_models}
 
       \paragraph{}
-      [TODO]
+      Tal y como se ha dicho posteriormente, en este apartado se van a proponer distintos modelos para el ajuste de la serie. Estos se proponen teniendo en cuenta únicamente el análisis descriptivo de la serie original, así como de las diferenciadas. Puesto que ya se ha decidido el grado de diferenciacion de la serie en la \autoref{sec:seasonal_difference} este será un valor fijo en la proposición de modelos. Esto se debe a que el ajuste de este tipo de modelos requiere de la estacionarización de la serie original.
+
+      \paragraph{}
+      Para indicar los modelos se utilizará la notación que se describe en la \autoref{eq:sarima}, donde la primera tupla se refiere a los parámetros regulares, mientras que las subsiguientes se refieren al periodo estacional $s_i$-ésimo en cada caso. El parámetro $p$ indica el orden de la componente autoregresiva en cada tupla, el parámetro $d$ se refiere al grado de diferenciación y por último, el parámetro $q$ al orden de la componente de media móvil.
 
       \begin{equation}
       \label{eq:sarima}
-        \text{SARIMA}(p, d, q)(P, D, Q)_{12}
+        \text{SARIMA}(p, d, q)(P_1, D_1, Q_1)_{s_1}(P_2, D_2, Q_2)_{s_2}...(P_q, D_q, Q_q)_{s_q}
       \end{equation}
 
       \paragraph{}
-      [TODO]
-
-      \begin{equation*}
-        \text{SARIMA}(p, 1, q)(P, 1, Q)_{12}
-      \end{equation*}
+      Puesto que anteriormente se indicó que era necesaria una diferenciación regular y otra estacional (de longitud $12$) en la \autoref{sec:regular_seasonal_difference}, sabemos que los modelos proputestos serán de la forma $\text{SARIMA}(p, 1, q)(P, 1, Q)_{12}...(P_q, D_q, Q_q)_{s_q}$. Para proponer modelos, nos vamos a fijar en la \autoref{img:weightloss_diff_1_12}, que recoge distintos gráficos sobre la serie diferenciada regular y estacionalmente. En concreto, nos fijaremos sobre todo tanto en el correlograma como en el correlograma parcial, el cual sirve de guía a la hora de elegir órdenes de las componentes autorregresivas y de medias móviles.
 
       \paragraph{}
-      [TODO]
+      El primer modelo que se propone es el indicado en la \autoref{eq:sarima_1}, el cual se basa en la utilización de $1$ parámetro de media móvil en la parte regular y otro en la parte estacional de periodicidad $12$. La justificación detrás de este modelo es la siguiente: se pueden apreciar decrecimientos exponenciales en el diagrama de correlación parcial que comienzan en los retardos $1$ y $12$. Además, se dan valores elevados en el correlograma en las correlaciones $1$ y $12$, lo cual es implica que un modelo de esta forma podría ajustarse de manera coherente a la serie.
 
       \begin{equation}
-        \text{SARIMA}(p, 1, q)(P, 1, Q)_{12}
-      \end{equation}
-
-      \paragraph{}
-      [TODO]
-
-      \begin{equation}
-        \text{SARIMA}(p, 1, q)(P, 1, Q)_{12}
-      \end{equation}
-
-      \paragraph{}
-      [TODO]
-
-      \begin{equation}
+        \label{eq:sarima_1}
         \text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}
       \end{equation}
 
       \paragraph{}
-      [TODO]
+      Se intuye que el modelo de la \autoref{eq:sarima_1} será el más adecuado para la serie \texttt{weightloss}. Sin embargo, a continuación se proponen otros modelos para los que se cree que existen distintas razones por las cuales se deberían comportar de manera adecuada.
+
+      \paragraph{}
+      El modelo de la \autoref{eq:sarima_2} consiste en una ampliación respecto del anterior. En este se ha añadido $1$ parámetro de media móvil más, en el retardo $17$. La razón por la cual se propone este modelo es el decrecimiento exponencial en el correlograma parcial de la \autoref{img:weightloss_diff_1_12}, que comienza en dicho retardo.
+
+      \begin{equation}
+        \label{eq:sarima_2}
+        \text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}
+      \end{equation}
+
+      \paragraph{}
+      Para completar la proposición de modelos que podrían ajustarse de manera adecuada a la serie, se añaden los indicados en la \autoref{eq:sarima_3} y en la \autoref{eq:sarima_4}, los cuales son ampliaciones de los indicados en la \autoref{eq:sarima_1} y en la \autoref{eq:sarima_2} respectivamente. Estos añaden $1$ parámetro autoregresivo a la componente regular de la serie. La justificación sobre este parámetro se debe al decrecimiento exponencial a partir del segundo retardo en el correlograma (ya que el valor del primer retardo proviene de la componente de media móvil). Si estos modelos finalmente son considerados válidos, entonces también habrá que considerar la primera correlación parcial como procedente de la componente autoregresiva regular. Sin embargo, se intuye que estos modelos finalmente será invalidados.
+
+      \begin{equation}
+        \label{eq:sarima_3}
+        \text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}
+      \end{equation}
+
+      \begin{equation}
+        \label{eq:sarima_4}
+        \text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}
+      \end{equation}
+
+      \paragraph{}
+      El siguiente paso es proceder al ajuste de los modelos propuestos, prestando especial atención a la significancia de los tests para los parámetros en cada modelo, así como a los residuos obtenidos, los cuales permitirán validar (e invalidar) aquellos modelos que no se ajusten de manera satisfactoria a los datos.
+
 
   \section{Etapa de estimación y validación}
   \label{sec:fitting}
 
     \paragraph{}
-    [TODO]
+    Una vez propuestos distintos modelos que podrían ajustar de manera adecuada a la serie, a continuación se procederá al ajuste de los mismos, para ello se utilizará el lenguaje \emph{SAS}.
+
+
+    \subsection{Estimación y Validación de \textbf{$\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}}
+    \label{sec:fitting_1}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{validation-1-estimation}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.4\textwidth]{validation-1-correlations}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.35\textwidth]{validation-1-metrics}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=\textwidth]{validation-1-residuals}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{validation-1-normality}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+    \subsection{Estimación y Validación de \textbf{$\text{SARIMA(0, 1, 1)}(0, 1, 1)_{12}(0, 0, 1)_{17}$}}
+    \label{sec:fitting_1}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{validation-2-estimation}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.4\textwidth]{validation-2-correlations}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.35\textwidth]{validation-2-metrics}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=\textwidth]{validation-2-residuals}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{validation-2-normality}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+    \subsection{Estimación y Validación de \textbf{$\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}$}}
+    \label{sec:fitting_3}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{validation-3-estimation}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.4\textwidth]{validation-3-correlations}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.35\textwidth]{validation-3-metrics}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+    \subsection{Estimación y Validación de $\textbf{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
+    \label{sec:fitting_4}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{validation-4-estimation}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.4\textwidth]{validation-4-correlations}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}[htb!]
+        \centering
+        \includegraphics[width=0.35\textwidth]{validation-4-metrics}
+        \caption{[TODO].}
+        \label{}
+      \end{table}
+
+      \paragraph{}
+      [TODO]
+
 
   \section{Comparación de modelos}
   \label{sec:comparison}
+    \paragraph{}
+    [TODO]
+
+    \begin{table}[htb!]
+      \centering
+      \begin{tabular}{|l|r|}
+          \hline
+          \textbf{Modelo} & \textbf{$SSE_p$}
+          \csvreader[
+            head to column names
+          ]{res/data/predict-error.csv}{}
+          {\\ \hline \name & \error}
+          \\\hline
+      \end{tabular}
+      \caption{[TODO].}
+      \label{table:predict_error}
+    \end{table}
+
+  \section{Predicción}
+  \label{sec:prediction}
 
     \paragraph{}
     [TODO]
 
-  \section{Predicción}
-  \label{sec:prediction}
+    \begin{table}[htb!]
+      \centering
+      \includegraphics[width=0.7\textwidth]{predict-complete}
+      \caption{[TODO].}
+      \label{}
+    \end{table}
+
+    \paragraph{}
+    [TODO]
+
+    \begin{table}[htb!]
+      \centering
+      \includegraphics[width=0.7\textwidth]{predict-ending}
+      \caption{[TODO].}
+      \label{}
+    \end{table}
 
     \paragraph{}
     [TODO]
@@ -255,14 +486,60 @@
   \section{Código Fuente}
   \label{sec:code}
 
-    \paragraph{}
-    [TODO]
-
+    \begin{listing}[H]
+      \centering
+      \inputminted{R}{./res/code/functions.r}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
 
     \begin{listing}[H]
-        \centering
-        \inputminted{R}{./res/code/weight-loss.r}
-        \caption{[TODO]}
-        \label{}
-      \end{listing}
+      \centering
+      \inputminted{R}{./res/code/plotting.r}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{R}{./res/code/descriptive.r}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/import.SAS}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/validation.sas}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/comparison.sas}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{R}{./res/code/comparison.r}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/predict.sas}
+      \caption{[TODO]}
+      \label{}
+    \end{listing}
+
 \end{document}
