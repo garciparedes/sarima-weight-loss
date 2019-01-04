@@ -47,6 +47,8 @@ PlotTimeSeries(df, seasonality = 12, lags = 84) %>%
  { save_plot(paste0(BASE_IMG_PATH, 'weightloss-diff-1-12.png'), .,
             base_aspect_ratio = 1, base_height = 12) }
 
+t.test(values, mu=0)
+
 values <- diff(diff(weightloss$values, 1), 12, 2)
 df <- data.frame(index = 1:length(values), values=values)
 PlotTimeSeries(df, seasonality = 12, lags = 84) %>%

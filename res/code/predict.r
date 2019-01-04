@@ -9,12 +9,8 @@ BASE_PATH <- './'
 BASE_IMG_PATH <- paste0(BASE_PATH, 'res/img/')
 BASE_DATA_PATH <- paste0(BASE_PATH, 'res/data/')
 
-
 predictions <- read.csv(paste0(BASE_DATA_PATH, 'predict.csv'))
-
-# predictions <- predictions[14:nrow(predictions), ]
 predictions$Month <- dmy(predictions$Month)
-
 
 head(predictions)
 predictions[1:180, 'L95'] <- NA
@@ -28,8 +24,7 @@ predictions[1:180, 'U95'] <- NA
         panel.border = element_rect(colour = "black", fill=NA)) +
   ggtitle('Ajuste')} %>%
    { save_plot(paste0(BASE_IMG_PATH, 'predict-complete.png'), .,
-              base_aspect_ratio = 1, base_height = 8) }
-
+              base_aspect_ratio = 1.5, base_height = 6) }
 
 {ggplot(predictions[156:nrow(predictions), ], aes(y = FORECAST, ymin = L95, ymax = U95, x = Month)) +
   geom_line() +
@@ -40,4 +35,4 @@ predictions[1:180, 'U95'] <- NA
         panel.border = element_rect(colour = "black", fill=NA)) +
   ggtitle('Predicción')} %>%
    { save_plot(paste0(BASE_IMG_PATH, 'predict-ending.png'), .,
-              base_aspect_ratio = 1, base_height = 8) }
+              base_aspect_ratio = 1.5, base_height = 6) }

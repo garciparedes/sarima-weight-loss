@@ -8,3 +8,7 @@ proc export data=arimaout_1
             outfile='/folders/myshortcuts/sarima-weight-loss/res/data/validation-1.csv'
             dbms=csv replace;
 run;
+
+proc univariate data = arimaout_1;
+	var residual;
+run;

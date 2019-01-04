@@ -9,6 +9,10 @@
 
   \maketitle
 
+  \begin{abstract}
+		\noindent El objetivo de este trabajo es el análisis de una serie temporal univariante. En este caso, se utilizan modelos \emph{SARIMA}, los cuales se refieren a la extensión con estacionalidad de modelos \emph{ARIMA}. Estos permiten la modelización de series temporales a partir de combinaciones lineales de la componente determinista (parte autoregresiva) y la componente estocástica (parte de media móvil) de la serie. Para el análisis se utilizará la serie \texttt{weightloss}.
+	\end{abstract}
+
   \begin{itemize}
     \item \textbf{Archivo}: \texttt{weight-loss.csv}
     \item \textbf{Serie}: Frecuencia de búsquedas para la palabra clave \say{Weight loss} a través del buscador \emph{Google} por meses, desde \emph{Enero de 2004} hasta \emph{Diciembre de 2018}. Los valores han sido estandarizados en el rango $[0, 100]$.
@@ -21,10 +25,10 @@
     \label{sec:context}
 
       \paragraph{}
-      Tal y como se indica al comienzo de este documento, en este trabajo se va a trabajar con la serie temporal referida a la frecuencia de búsqueda de la palabra clave \say{Weight loss} (a nivel mundial) a través del buscador \emph{Google}. Se ha escogido esta serie para el trabajo por su estructura estacional claramente marcada. Se cree que dicha estructura tiene un alto grado de relación con un índice sobre la preocupación de la población por su peso a lo largo del tiempo.
+      Tal y como se indica al comienzo de este documento, se va a analizar la serie temporal referida a la frecuencia de búsqueda de la palabra clave \say{Weight loss} (a nivel mundial) a través del buscador \emph{Google}. Se ha escogido esta serie para el trabajo por su componente estacional claramente marcada. Se cree que esta está está estrechamente relacionada con un índice sobre la preocupación de la población por su peso a lo largo del tiempo.
 
       \paragraph{}
-      Para evitar problemas de privacidad, los datos se proporcionan estandarizados en el rango $[0, 100]$, lo cual elimina la escala de los mismos y únicamente permite estudiar la estructura estocástica de la serie. Esto no es un problema para el análisis que se realizará en este trabajo, dado que precisamente el objetivo del mismo es el de analizar la estructura de una serie serie temporal, siguiendo la metodología de \emph{Box-Jenkins}.
+      Para evitar problemas de privacidad, los datos se proporcionan estandarizados en el rango $[0, 100]$, lo cual elimina la escala de los mismos y únicamente permite estudiar la estructura de la serie. Esto no es un problema para el análisis que se realizará en este trabajo, dado que precisamente el objetivo del mismo es el de analizar la estructura de una serie serie temporal, siguiendo la metodología de \emph{Box-Jenkins}.
 
       \paragraph{}
       En cuanto al particionamiento de los datos, estos se proporcionan en agrupaciones mensuales. Dado que se tiene información desde \emph{Enero de 2004} hasta \emph{Diciembre de 2018}, es decir, un total de \emph{15 años}, lo cual suma $15 * 12 = 180$ observaciones en total. Con esta cantidad de observaciones, se cree que se podrá construir un modelo \emph{SARIMA} (\emph{ARIMA} con estacionalidad) de manera adecuada.
@@ -188,6 +192,24 @@
         \paragraph{}
         Dado que la serie cumple la propiedad de media y varianza constantes a lo largo del tiempo y además presenta decrecimientos exponenciales en el correlograma, consideraremos que la serie resultante es estacionaria. Además, la varianza de $14.07$ es la menor que se ha obtenido, tal y como se puede apreciar en la \autoref{table:variance_differences}. Por estas razones, diremos que una diferenciación regular y otra estacional son suficientes para conseguir la propiedad de estacionaridad, necesaria para el ajuste de un modelo \emph{SARIMA}.
 
+        \paragraph{}
+        Por último, se desea comprobar si la media de la serie puede ser considerada significativamente distinta de $0$, en cuyo caso deberíamos ajustar un modelo con término independiente. Para ello, se ha llevado a cabo un test \emph{t de student}, tras el cual se ha obtenido un valor $t_{obs} = -0.061898$ lo cual indica el $pvalor = 0.9507$, no teniendo evidencias para el rechazo. Dicho test se incluye en el \autoref{code:descriptive_r}. Además, a continuación se incluye el resultado de dicho test:
+
+        \begin{figure}
+          \begin{Verbatim}
+            One Sample t-test
+            t = -0.061898, df = 166, p-value = 0.9507
+            alternative hypothesis: true mean is not equal to 0
+            95 percent confidence interval:
+             -0.5909606  0.5550325
+            sample estimates:
+              mean of x
+            -0.01796407
+          \end{Verbatim}
+          \caption{Resultados del test \emph{t de student} sobre la media nula ($H_0: \mu = 0$) para la serie \emph{weightloss} diferenciada regular y estacionalmente.}
+          \label{result:zero_mean_test}
+        \end{figure}
+
     \paragraph{}
     Una vez realizado el análisis descriptivo de la serie, así como la búsqueda por los órdenes de diferenciación necesarios para conseguir estacionarizar nuestra serie, ya estamos en condiciones de analizar la serie desde otro punto de vista: la proposición de modelos, lo cual se expone a continuación.
 
@@ -297,12 +319,60 @@
       \paragraph{}
       [TODO]
 
+      \begin{figure}
+        \begin{Verbatim}
+          Box-Ljung test
+          X-squared = 0.059792, lag = 1, p-value = 0.8068
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Ljung-Box} de dependencia serial en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
+        \label{result:comparison_1_ljung_box_1}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{figure}
+        \begin{Verbatim}
+          Box-Ljung test
+          X-squared = 5.9799, lag = 12, p-value = 0.9171
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Ljung-Box} de dependencia estacional en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
+        \label{result:comparison_1_ljung_box_12}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.7\textwidth]{validation-1-normality}
         \caption{[TODO].}
         \label{}
       \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{figure}
+        \begin{Verbatim}
+          Lilliefors (Kolmogorov-Smirnov) normality test
+          D = 0.062944, p-value = 0.109
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Lilliefors} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
+        \label{result:comparison_1_lilliefors}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{figure}
+        \begin{Verbatim}
+          Shapiro-Francia normality test
+          W = 0.98217, p-value = 0.03111
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Shapiro-Francia} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
+        \label{result:comparison_1_sf}
+      \end{figure}
 
       \paragraph{}
       [TODO]
@@ -353,12 +423,60 @@
       \paragraph{}
       [TODO]
 
+      \begin{figure}
+        \begin{Verbatim}
+          Box-Ljung test
+          X-squared = 0.055242, lag = 1, p-value = 0.8142
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Ljung-Box} de dependencia serial en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
+        \label{result:comparison_2_ljung_box_1}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{figure}
+        \begin{Verbatim}
+          Box-Ljung test
+          X-squared = 7.6285, lag = 12, p-value = 0.8134
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Ljung-Box} de dependencia estacional en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
+        \label{result:comparison_2_ljung_box_12}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.7\textwidth]{validation-2-normality}
         \caption{[TODO].}
         \label{}
       \end{table}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{figure}
+        \begin{Verbatim}
+          Lilliefors (Kolmogorov-Smirnov) normality test
+          D = 0.056905, p-value = 0.2067
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Lilliefors} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
+        \label{result:comparison_2_lilliefors}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{figure}
+        \begin{Verbatim}
+          Shapiro-Francia normality test
+          W = 0.98119, p-value = 0.02422
+        \end{Verbatim}
+        \caption{Resultados del test de \emph{Shapiro-Francia} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
+        \label{result:comparison_2_sf}
+      \end{figure}
 
       \paragraph{}
       [TODO]
@@ -512,6 +630,38 @@
       \label{table:sse_p}
     \end{table}
 
+    \paragraph{}
+    [TODO]
+
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=\textwidth]{comparison-ci-amplitude}
+      \caption{Comparación de las amplitudes de los intervalos de predicción para los modelos $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+      \label{img:ci_amplitude}
+    \end{figure}
+
+    \paragraph{}
+    [TODO]
+
+    \begin{figure}
+      \begin{Verbatim}
+        One Sample t-test
+
+        t = -0.061898, df = 166, p-value = 0.9507
+        alternative hypothesis: true mean is not equal to 0
+        95 percent confidence interval:
+        -0.5909606  0.5550325
+        sample estimates:
+        mean of x
+        -0.01796407
+      \end{Verbatim}
+      \caption{Resultados del test \emph{t de student} sobre la media nula ($H_0: \mu = 0$) para la diferencia entre amplitudes en los intervalos de predicción para los modelos $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+      \label{result:comparison_ci_zero_mean}
+    \end{figure}
+
+    \paragraph{}
+    [TODO]
+
   \section{Predicción}
   \label{sec:prediction}
 
@@ -597,10 +747,25 @@
 
     \begin{listing}[H]
       \centering
+      \inputminted{R}{./res/code/validation_1.r}
+      \caption{Validación utilizando el lenguaje \texttt{R} del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ sobre la serie \texttt{weightloss}.}
+      \label{code:validation_1_r}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
       \inputminted{SAS}{./res/code/validation_2.sas}
       \caption{Validación utilizando el lenguaje \texttt{SAS} del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
       \label{code:validation_2_sas}
     \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{R}{./res/code/validation_2.r}
+      \caption{Validación utilizando el lenguaje \texttt{R} del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
+      \label{code:validation_2_r}
+    \end{listing}
+
 
     \begin{listing}[H]
       \centering
