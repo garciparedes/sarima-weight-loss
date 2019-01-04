@@ -279,7 +279,7 @@
 
       \begin{table}[htb!]
         \centering
-        \includegraphics[width=0.35\textwidth]{validation-1-metrics}
+        \includegraphics[width=0.3\textwidth]{validation-1-metrics}
         \caption{[TODO].}
         \label{}
       \end{table}
@@ -307,8 +307,8 @@
       \paragraph{}
       [TODO]
 
-    \subsection{Estimación y Validación de \textbf{$\text{SARIMA(0, 1, 1)}(0, 1, 1)_{12}(0, 0, 1)_{17}$}}
-    \label{sec:fitting_1}
+    \subsection{Estimación y Validación de \textbf{$\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}}
+    \label{sec:fitting_2}
 
       \paragraph{}
       [TODO]
@@ -335,7 +335,7 @@
 
       \begin{table}[htb!]
         \centering
-        \includegraphics[width=0.35\textwidth]{validation-2-metrics}
+        \includegraphics[width=0.3\textwidth]{validation-2-metrics}
         \caption{[TODO].}
         \label{}
       \end{table}
@@ -391,7 +391,7 @@
 
       \begin{table}[htb!]
         \centering
-        \includegraphics[width=0.35\textwidth]{validation-3-metrics}
+        \includegraphics[width=0.3\textwidth]{validation-3-metrics}
         \caption{[TODO].}
         \label{}
       \end{table}
@@ -427,7 +427,7 @@
 
       \begin{table}[htb!]
         \centering
-        \includegraphics[width=0.35\textwidth]{validation-4-metrics}
+        \includegraphics[width=0.3\textwidth]{validation-4-metrics}
         \caption{[TODO].}
         \label{}
       \end{table}
@@ -438,6 +438,62 @@
 
   \section{Comparación de modelos}
   \label{sec:comparison}
+    \paragraph{}
+    [TODO]
+
+
+    \paragraph{}
+    Para calcular el $SSE_p$, primero explicaremos resumidamente qué es así como en qué está basado. El $SSE_p$ es se corresponde con el cálculo de una medida para comparar la capacidad de predicción de un modelo de serie temporale. Se trata de predecir observaciones de una serie estacional de periodo $s$, para medir la capacidad de predicción de un modelo ajustado a dicha serie.
+
+    \paragraph{}
+    Si se dispone de $n$ observaciones en total, $x_1, x_2, ..., x_n$ se reservan las últimas $k$ observaciones, donde $k$ es un múltiplo de $s$. Para el ajuste se utilizan $m$ observaciones ($m = n - k$) y la medida se obtiene sumando los cuadrados de los residuales $\{1, 2, ..., k\}$ pasos hacia adelante. Esto se define en la \autoref{eq:sse_p}.
+
+    \begin{equation}
+    \label{eq:sse_p}
+      \begin{split}
+        SSE_p
+        &= \sum_{j = 1} ^ k (x_{m + j} - x_{m}(j)) ^ 2 \\
+        &= \sum_{j = 1} ^ k e_m(j) ^ 2 \\
+        &= e_m(1) ^ 2 + e_m(2) ^ 2 + ... + e_m(k) ^ 2
+      \end{split}
+    \end{equation}
+
+    \paragraph{}
+    [TODO]
+
+    \begin{table}[htb!]
+      \centering
+      \begin{tabular}{|l|r|r|r|r|r|r|}
+          \hline
+          \textbf{Fecha} & \textbf{Obs.} & \textbf{Predicho} & \textbf{Error Est.}& \textbf{L. Inf. ($95\%$)} & \textbf{L. Sup. ($95\%$)}  & \textbf{Residuo}
+          \csvreader[
+           head to column names,
+          ]{res/data/comparison-1-reduced.csv}{}
+          {\\ \hline \Month & \Weightloss & \FORECAST & \STD & \L & \U & \RESIDUAL}
+          \\\hline
+      \end{tabular}
+      \caption{Predicción $12$ observaciones hacia delante, reservando las $12$ últimas para calcular el $SSE_p$ de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
+      \label{table:comparison-1}
+    \end{table}
+
+    \paragraph{}
+    [TODO]
+
+    \begin{table}[htb!]
+      \centering
+      \begin{tabular}{|l|r|r|r|r|r|r|}
+          \hline
+          \textbf{Fecha} & \textbf{Obs.} & \textbf{Predicho} & \textbf{Error Est.}& \textbf{L. Inf. ($95\%$)} & \textbf{L. Sup. ($95\%$)}  & \textbf{Residuo}
+          \csvreader[
+           head to column names,
+          ]{res/data/comparison-2-reduced.csv}{}
+          {\\ \hline \Month & \Weightloss & \FORECAST & \STD & \L & \U & \RESIDUAL}
+          \\\hline
+      \end{tabular}
+      \caption{Predicción $12$ observaciones hacia delante, reservando las $12$ últimas para calcular el $SSE_p$ de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 1, 1)_{17}$.}
+      \label{table:comparison-2}
+    \end{table}
+
     \paragraph{}
     [TODO]
 
@@ -452,8 +508,8 @@
           {\\ \hline \name & \error}
           \\\hline
       \end{tabular}
-      \caption{[TODO].}
-      \label{table:predict_error}
+      \caption{Suma de Cuadrados del Error de Predicción acumulada para $12$ observaciones hacia delante para los modelos $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+      \label{table:sse_p}
     \end{table}
 
   \section{Predicción}
@@ -462,22 +518,40 @@
     \paragraph{}
     [TODO]
 
-    \begin{table}[htb!]
-      \centering
-      \includegraphics[width=0.7\textwidth]{predict-complete}
-      \caption{[TODO].}
-      \label{}
-    \end{table}
-
     \paragraph{}
     [TODO]
 
     \begin{table}[htb!]
       \centering
-      \includegraphics[width=0.7\textwidth]{predict-ending}
-      \caption{[TODO].}
-      \label{}
+      \begin{tabular}{|l|r|r|r|r|r|r|}
+          \hline
+          \textbf{Fecha} & \textbf{Obs.} & \textbf{Predicho} & \textbf{Error Est.}& \textbf{L. Inf. ($95\%$)} & \textbf{L. Sup. ($95\%$)}  & \textbf{Residuo}
+          \csvreader[
+           head to column names,
+          ]{res/data/predict-reduced.csv}{}
+          {\\ \hline \Month & \Weightloss & \FORECAST & \STD & \L & \U & \RESIDUAL}
+          \\\hline
+      \end{tabular}
+      \caption{Predicción $24$ observaciones hacia delante de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$. (Últimas observaciones de la serie).}
+      \label{table:predictions}
     \end{table}
+
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=0.7\textwidth]{predict-complete}
+      \caption{Predicción $24$ observaciones hacia delante de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$. (Serie completa)}
+      \label{img:predict_complete}
+    \end{figure}
+
+    \paragraph{}
+    [TODO]
+
+    \begin{figure}[htb!]
+      \centering
+      \includegraphics[width=0.7\textwidth]{predict-ending}
+      \caption{Predicción $24$ observaciones hacia delante de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$. (Últimas observaciones de la serie)}
+      \label{img:predict_ending}
+    \end{figure}
 
     \paragraph{}
     [TODO]
@@ -489,57 +563,78 @@
     \begin{listing}[H]
       \centering
       \inputminted{R}{./res/code/functions.r}
-      \caption{[TODO]}
-      \label{}
+      \caption{Conjunto de funciones de apoyo necesarias para el análisis descriptivo de series temporales utilizando el lenguaje \texttt{R}.}
+      \label{code:functions_r}
     \end{listing}
 
     \begin{listing}[H]
       \centering
       \inputminted{R}{./res/code/plotting.r}
-      \caption{[TODO]}
-      \label{}
+      \caption{Función de generación de representación gráfica de una serie utilizando el lenguaje \texttt{R}.}
+      \label{code:plotting_r}
     \end{listing}
 
     \begin{listing}[H]
       \centering
       \inputminted{R}{./res/code/descriptive.r}
-      \caption{[TODO]}
-      \label{}
+      \caption{Análisis descriptivo utilizando el lenguaje \texttt{R} de la serie \texttt{weightloss}.}
+      \label{code:descriptive_r}
     \end{listing}
 
     \begin{listing}[H]
       \centering
       \inputminted{SAS}{./res/code/import.SAS}
-      \caption{[TODO]}
-      \label{}
+      \caption{Importación de datos utilizando el lenguaje \texttt{SAS} del conjunto de datos para la serie \texttt{weightloss}.}
+      \label{code:import_sas}
     \end{listing}
 
     \begin{listing}[H]
       \centering
-      \inputminted{SAS}{./res/code/validation.sas}
-      \caption{[TODO]}
-      \label{}
+      \inputminted{SAS}{./res/code/validation_1.sas}
+      \caption{Validación utilizando el lenguaje \texttt{SAS} del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ sobre la serie \texttt{weightloss}.}
+      \label{code:validation_1_sas}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/validation_2.sas}
+      \caption{Validación utilizando el lenguaje \texttt{SAS} del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
+      \label{code:validation_2_sas}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/validation_3.sas}
+      \caption{Validación utilizando el lenguaje \texttt{SAS} del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}$ sobre la serie \texttt{weightloss}.}
+      \label{code:validation_3_sas}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/validation_4.sas}
+      \caption{Validación utilizando el lenguaje \texttt{SAS} del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
+      \label{code:validation_4_sas}
     \end{listing}
 
     \begin{listing}[H]
       \centering
       \inputminted{SAS}{./res/code/comparison.sas}
-      \caption{[TODO]}
-      \label{}
+      \caption{Comparación utilizando el lenguaje \texttt{SAS} entre los modelos $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
+      \label{code:comparison_sas}
     \end{listing}
 
     \begin{listing}[H]
       \centering
       \inputminted{R}{./res/code/comparison.r}
-      \caption{[TODO]}
-      \label{}
+      \caption{Comparación utilizando el lenguaje \texttt{R} entre los modelos $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
+      \label{code:comparison_r}
     \end{listing}
 
     \begin{listing}[H]
       \centering
       \inputminted{SAS}{./res/code/predict.sas}
-      \caption{[TODO]}
-      \label{}
+      \caption{Cálculo de la predicción utilizando el lenguaje \texttt{SAS} de las $24$ observaciones siguientes utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
+      \label{code:predict_sas}
     \end{listing}
 
 \end{document}
