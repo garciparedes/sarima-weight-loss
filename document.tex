@@ -46,18 +46,19 @@
       \paragraph{}
       Tras la descripción de la metodología, se va a comenzar con la descripción de la serie temporal. Para ello, nos vamos a apoyar en los gráficos de la \autoref{img:weightloss}, a partir de los cuales se puede tener una perspectiva completa acerca de la serie. A través de ella se puede ver el gráfico de la serie, el correlograma, el correlograma parcial, el periodograma y el diagrama de dispersión \emph{rango-media}.
 
+      \begin{figure}[htb!]
+        \centering
+        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{weightloss}
+        \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie \texttt{weightloss}.}
+        \label{img:weightloss}
+      \end{figure}
+
       \paragraph{}
       En el gráfico de la serie de la \autoref{img:weightloss} se puede apreciar la evolución temporal de los valores a lo largo de los 15 años, separados en observaciones mensuales. En dicha representación destacan dos características de la serie temporal sobre el resto. Estas son:
         \begin{enumerate*}[label=(\arabic*)]
           \item la marcada estructura estacional de periodo 12 (anual) de la serie, que sigue la misma forma en todas las estacionalidades (años). Esto es un fuerte crecimiento durante el primer mes (Enero), posteriormente se produce un suave decrecimiento hasta el tercer cuarto del año, para producirse un fuerte decrecimiento en torno a los meses de Septiembre - Octubre. Esta estructura estacional es coherente con el fenómeno conocido como \emph{Operación Bikini}, que consiste en la preocupación por estar en buena forma física durante los meses de verano. Esta preocupación comienza en torno a principios de año y se mantiene hasta los meses de verano. Puesto que una vez pasados dichos meses, la forma física deja de estar comprometida, la preocupación por la pérdida de peso de la población también disminuye.
           \item el cambio de nivel que se produce entre el año $2008$ y el año $2009$. Durante este periodo se produce un cambio drástico en el nivel de la serie. Parece que durante el final del año $2008$ no se produjo el fenómeno esperado de un fuerte decrecimiento que sí se produce durante el resto de años. Este cambio en el nivel de la serie pudo deberse a distintos factores. Uno de ellos pudo ser la crisis económica cuyas evidencias comonezaron en torno a dicho año. Si se confirmase que las razones del aumento del nivel en las búsquedas del término \emph{Weight loss} fueron debidas a la crisis económica, una interpretación para la misma podría ser la siguiente: Con el aumento del riesgo en la estabilidad financiera, la población aumentó también su preocupación en su apariencia física, lo cual se ha mantenido hasta la actualidad. Otro de los factores de peso pudo haber sido el acercamiento de la tecnología y redes sociales a la mayoría de la población, que hasta entonces se había mantenido alejada de ella. Dado que muchas redes sociales permiten la posibilidad de incluir imágenes personales que otras personas pueden juzgar, el índice de preocupación por el nivel de forma física puede haberse incrementado en los últimos años debido a dicha razón. Sin embargo, estas interpretaciones queda fuera del objetivo de este trabajo.
         \end{enumerate*}
-
-      \begin{figure}[htb!]
-        \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{weightloss}
-        \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie \texttt{weightloss}.}
-        \label{img:weightloss}
-      \end{figure}
 
       \paragraph{}
       En cuanto al correlograma de la serie que se muestra en la \autoref{img:weightloss}, se puede apreciar la componente estacional de periodo 12 en la estructura de correlaciones. Destacan sobre el resto los retardos de la forma $i \text{ mod } 12 = 0$, estos son los retardos $12, 24, 36,...$. Estos se relacionan entre si presentando un decrecimiento lineal, por lo que son indicativo de que la serie no es estacionaria. Por lo tanto, tendremos que llevar a cabo al menos una diferenciación estacional para conseguir estacionarizar la serie. También llama la atención la gran cantidad de correlaciones con valores significativos, por lo que la tendencia podría estar ocultando algún otro comportamiento no visible a simple vista. Por lo tanto, la realización de una diferenciación regular también podría ser una buena estrategia para tratar de comprender en mayor medida la estructura de correlaciones de la serie. Como se verá en el siguiente párrafo, estas interpretaciones se ven reflejadas en el correlograma parcial.
@@ -125,6 +126,7 @@
         Tal y como se puede apreciar en el gráfico de la serie, se ha eliminado la tendencia de la misma. Ahora la media está en torno al valor $0$, sobre el cual obscila. Sin embargo, se puede apreciar que la serie sigue teniendo una estructura estacional, que la diferenciación no ha podido eliminar. En el correlograma se puede apreciar que dicha estructura de estacionalidad (con las correlaciones múltiplos de 12 claramente marcadas) que estas presentan un decrecimiento de carácter lineal, lo cual indica que la serie no es estacionaria. En el correlograma parcia se puede apreciar la reducción de la correlación del primer retardo, lo cual era algo obvio tras la diferenciación regular. En cuanto al periodograma, ahora se pueden apreciar de una manera muy marcada los armónicos significativos, los cuales siguen la forma $i / 12$. Este es otro de los argumentos en favor de la diferenciación estacional, que se realizará en la \autoref{sec:seasonal_difference}. En cuanto al gráfico de dispersión \emph{rango-media}, se puede comprobar que ahora se ha conseguido controlar en mayor medida la relación entre el nivel y la dispersión, es decir, se ha estabilizado en mayor medida la varianza. Sin embargo, esto se conseguirá en mayor media en las diferenciaciones posteriores.
 
         \begin{figure}[htb!]
+          \centering
           \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{weightloss-diff-1}
           \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie \texttt{weightloss} tras la realización de una diferenciación regular.}
           \label{img:weightloss_diff_1}
@@ -152,6 +154,7 @@
         En la \autoref{img:weightloss_diff_12} se muestran el gráfico de la serie, el correlograma, el correlograma parcial, el periodograma y el diagrama de dispersión \emph{rango-media} para la serie tras la realización de una diferenciación estacional (12 retardos).
 
         \begin{figure}[htb!]
+          \centering
           \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{weightloss-diff-12}
           \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie \texttt{weightloss} tras la realización de una diferenciación estacional (12 retardos).}
           \label{img:weightloss_diff_12}
@@ -184,6 +187,7 @@
         En la \autoref{img:weightloss_diff_1_12} se muestran distintos resúmenes visuales de la serie diferenciada regular y estacionalmente. En el gráfico de la serie se observa como la tendencia de la serie ha sido eliminada, al igual que la estacionalidad, lo cual hace que el comportamiento de la serie sea mucho más similar a un ruido blanco, aunque sin llegar a serlo, tal y como se puede apreciar a partir del resto de gráficos. Llama la atención el aumento de la dispersión en torno al primer cuarto de la serie, lo cual asumimos que podría deverse al cambio de nivel durante finales del año $2008$ en la serie original. En cuanto al correlograma, se puede apreciar un decrecimiento exponencial en las primeras correlaciones. De la misma manera, tambien se puede apreciar un decrecimiento exponencial en las correlaciones estacionales. Estas son las de la forma $12i$, es decir, las correlacioens múltiplo de 12. Dichos decrecimientos exponenciales son un indicador de que la serie resultante será estacionaria. Sobre el correlograma parcial, en este caso también se muestran decrecimientos exponenciales. Sin embargo, tanto este fenómeno como un análisis más detallado del correlograma, serán llevados a cabo en la \autoref{sec:proposed_models} cuando se propongan distintos modelos \emph{SARIMA}. En el periodograma se puede apreciar como destacan de una serie de armónicos sobre el resto. Sin embargo, en este caso no lo hacen de manera determinista, por lo que no pueden ser considerados una única estacionalidad que poder aislar de manera sencilla. Por lo tanto, lo trataremos como una componente aleatoria. Por último, a través del diagrama de dispersión \emph{rango-media} se puede comprobar que la relación entre nivel y dispersión ha desaparecido. Entonces, ya podemos considerar que la serie resultante cumple la propiedad de \emph{homocedastecidad}.
 
         \begin{figure}[htb!]
+          \centering
           \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{weightloss-diff-1-12}
           \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie \texttt{weightloss} tras la realización de una diferenciación regular y otra diferención estacional (12 retardos).}
           \label{img:weightloss_diff_1_12}
@@ -195,7 +199,7 @@
         \paragraph{}
         Por último, se desea comprobar si la media de la serie puede ser considerada significativamente distinta de $0$, en cuyo caso deberíamos ajustar un modelo con término independiente. Para ello, se ha llevado a cabo un test \emph{t de student}, tras el cual se ha obtenido un valor $t_{obs} = -0.061898$ lo cual indica el $pvalor = 0.9507$, no teniendo evidencias para el rechazo. Dicho test se incluye en el \autoref{code:descriptive_r}. Además, a continuación se incluye el resultado de dicho test:
 
-        \begin{figure}
+        \begin{table}
           \begin{Verbatim}
             One Sample t-test
             t = -0.061898, df = 166, p-value = 0.9507
@@ -208,7 +212,7 @@
           \end{Verbatim}
           \caption{Resultados del test \emph{t de student} sobre la media nula ($H_0: \mu = 0$) para la serie \emph{weightloss} diferenciada regular y estacionalmente.}
           \label{result:zero_mean_test}
-        \end{figure}
+        \end{table}
 
     \paragraph{}
     Una vez realizado el análisis descriptivo de la serie, así como la búsqueda por los órdenes de diferenciación necesarios para conseguir estacionarizar nuestra serie, ya estamos en condiciones de analizar la serie desde otro punto de vista: la proposición de modelos, lo cual se expone a continuación.
@@ -282,8 +286,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.6\textwidth]{validation-1-estimation}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estimación de los parámetros por el método de \emph{Máxima Verosimilitud} para el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
+        \label{table:validation_1_estimation}
       \end{table}
 
       \paragraph{}
@@ -292,8 +296,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.4\textwidth]{validation-1-correlations}
-        \caption{[TODO].}
-        \label{}
+        \caption{Correlación entre los parámetros del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
+        \label{table:validation_1_correlations}
       \end{table}
 
       \paragraph{}
@@ -302,77 +306,77 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.3\textwidth]{validation-1-metrics}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
+        \label{img:validation_1_metrics}
       \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{table}[htb!]
+      \begin{figure}[htb!]
         \centering
         \includegraphics[width=\textwidth]{validation-1-residuals}
-        \caption{[TODO].}
-        \label{}
-      \end{table}
+        \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
+        \label{fig:validation_1_residuals}
+      \end{figure}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{table}
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 0.059792, lag = 1, p-value = 0.8068
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia serial en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
         \label{result:comparison_1_ljung_box_1}
-      \end{figure}
+      \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{table}
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 5.9799, lag = 12, p-value = 0.9171
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia estacional en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
         \label{result:comparison_1_ljung_box_12}
-      \end{figure}
-
-      \paragraph{}
-      [TODO]
-
-      \begin{table}[htb!]
-        \centering
-        \includegraphics[width=0.7\textwidth]{validation-1-normality}
-        \caption{[TODO].}
-        \label{}
       \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{figure}[htb!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{validation-1-normality}
+        \caption{Gráfico de normalidad \emph{QQ-plot} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
+        \label{img:validation_1_normality}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}
         \begin{Verbatim}
           Lilliefors (Kolmogorov-Smirnov) normality test
           D = 0.062944, p-value = 0.109
         \end{Verbatim}
         \caption{Resultados del test de \emph{Lilliefors} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
         \label{result:comparison_1_lilliefors}
-      \end{figure}
+      \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{table}
         \begin{Verbatim}
           Shapiro-Francia normality test
           W = 0.98217, p-value = 0.03111
         \end{Verbatim}
         \caption{Resultados del test de \emph{Shapiro-Francia} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
         \label{result:comparison_1_sf}
-      \end{figure}
+      \end{table}
 
       \paragraph{}
       [TODO]
@@ -386,8 +390,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.6\textwidth]{validation-2-estimation}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estimación de los parámetros por el método de \emph{Máxima Verosimilitud} para el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \label{table:validation_2_estimation}
       \end{table}
 
       \paragraph{}
@@ -396,8 +400,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.4\textwidth]{validation-2-correlations}
-        \caption{[TODO].}
-        \label{}
+        \caption{Correlación entre los parámetros del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \label{table:validation_2_correlations}
       \end{table}
 
       \paragraph{}
@@ -406,77 +410,77 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.3\textwidth]{validation-2-metrics}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \label{img:validation_2_metrics}
       \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{table}[htb!]
+      \begin{figure}[htb!]
         \centering
         \includegraphics[width=\textwidth]{validation-2-residuals}
-        \caption{[TODO].}
-        \label{}
-      \end{table}
+        \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \label{img:validation_2_residuals}
+      \end{figure}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{table}
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 0.055242, lag = 1, p-value = 0.8142
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia serial en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
         \label{result:comparison_2_ljung_box_1}
-      \end{figure}
+      \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{table}
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 7.6285, lag = 12, p-value = 0.8134
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia estacional en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
         \label{result:comparison_2_ljung_box_12}
-      \end{figure}
-
-      \paragraph{}
-      [TODO]
-
-      \begin{table}[htb!]
-        \centering
-        \includegraphics[width=0.7\textwidth]{validation-2-normality}
-        \caption{[TODO].}
-        \label{}
       \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{figure}[htb!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{validation-2-normality}
+        \caption{Gráfico de normalidad \emph{QQ-plot} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \label{img:validation_2_normality}
+      \end{figure}
+
+      \paragraph{}
+      [TODO]
+
+      \begin{table}
         \begin{Verbatim}
           Lilliefors (Kolmogorov-Smirnov) normality test
           D = 0.056905, p-value = 0.2067
         \end{Verbatim}
         \caption{Resultados del test de \emph{Lilliefors} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
         \label{result:comparison_2_lilliefors}
-      \end{figure}
+      \end{table}
 
       \paragraph{}
       [TODO]
 
-      \begin{figure}
+      \begin{table}
         \begin{Verbatim}
           Shapiro-Francia normality test
           W = 0.98119, p-value = 0.02422
         \end{Verbatim}
         \caption{Resultados del test de \emph{Shapiro-Francia} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
         \label{result:comparison_2_sf}
-      \end{figure}
+      \end{table}
 
       \paragraph{}
       [TODO]
@@ -490,8 +494,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.6\textwidth]{validation-3-estimation}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estimación de los parámetros por el método de \emph{Máxima Verosimilitud} para el modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}$ sobre la serie \emph{weightloss}.}
+        \label{table:validation_3_estimation}
       \end{table}
 
       \paragraph{}
@@ -500,8 +504,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.4\textwidth]{validation-3-correlations}
-        \caption{[TODO].}
-        \label{}
+        \caption{Correlación entre los parámetros del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}$.}
+        \label{table:validation_3_correlations}
       \end{table}
 
       \paragraph{}
@@ -510,8 +514,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.3\textwidth]{validation-3-metrics}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}$.}
+        \label{img:validation_3_metrics}
       \end{table}
 
       \paragraph{}
@@ -526,8 +530,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.6\textwidth]{validation-4-estimation}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estimación de los parámetros por el método de \emph{Máxima Verosimilitud} para el modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \emph{weightloss}.}
+        \label{table:validation-4-estimation}
       \end{table}
 
       \paragraph{}
@@ -536,8 +540,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.4\textwidth]{validation-4-correlations}
-        \caption{[TODO].}
-        \label{}
+        \caption{Correlación entre los parámetros del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \label{table:validation-4-correlations}
       \end{table}
 
       \paragraph{}
@@ -546,8 +550,8 @@
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.3\textwidth]{validation-4-metrics}
-        \caption{[TODO].}
-        \label{}
+        \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \label{img:validation_4_metrics}
       \end{table}
 
       \paragraph{}
@@ -643,7 +647,7 @@
     \paragraph{}
     [TODO]
 
-    \begin{figure}
+    \begin{table}
       \begin{Verbatim}
         One Sample t-test
 
@@ -657,7 +661,7 @@
       \end{Verbatim}
       \caption{Resultados del test \emph{t de student} sobre la media nula ($H_0: \mu = 0$) para la diferencia entre amplitudes en los intervalos de predicción para los modelos $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
       \label{result:comparison_ci_zero_mean}
-    \end{figure}
+    \end{table}
 
     \paragraph{}
     [TODO]
