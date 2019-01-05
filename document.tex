@@ -306,17 +306,17 @@
       \end{table}
 
       \paragraph{}
-      En la \autoref{img:validation_1_metrics} se recogen distintos estadísticos acerca de la calidad de ajuste del módelo, útiles para realizar comparaciones entre distintos modelos. Puesto que el objetivo de esta sección es el ajuste y validación, se comentarán dichos resultados posteriormente.
+      En la \autoref{table:validation_1_metrics} se recogen distintos estadísticos acerca de la calidad de ajuste del módelo, útiles para realizar comparaciones entre distintos modelos. Puesto que el objetivo de esta sección es el ajuste y validación, se comentarán dichos resultados posteriormente.
 
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.3\textwidth]{validation-1-metrics}
         \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
-        \label{img:validation_1_metrics}
+        \label{table:validation_1_metrics}
       \end{table}
 
       \paragraph{}
-      En la \autoref{img:validation_1_residuals} (generada a partir del \autoref{code:validation_1_r}) se resume la serie generada por los residuales del ajuste del modelo. A partir del gráfico de la serie se aprecia el comportamiento aleatorio de los residuales. Sin embargo, sigue presente el aumento de la varianza en torno al comienzo del primero cuarto de la serie (correspondiente al aumento de nivel durante finales del año $2008$). Tanto en el correlograma, como en el correlograma parcial se aprecia un leve estrucutra de ondas, pero que se cree que puede considererarse no significativa por el reducido valor de las caorrelaciones (en todos los casos $\mid < 0.1 \mid$). En cuanto al periodograma, no se aprecia una estructura bien definida con armónicos que destaque sobre el resto. Finalmente, el diagrama de dispersión \emph{rango-media} indica que no hay relación entre el nivel y la dispersión.
+      En la \autoref{img:validation_1_residuals} (generada a partir del \autoref{code:validation_1_r}) se resume la serie generada por los residuales del ajuste del modelo. A partir del gráfico de la serie se aprecia el comportamiento aleatorio de los residuales. Sin embargo, sigue presente el aumento de la varianza en torno al comienzo del primero cuarto de la serie (correspondiente al aumento de nivel durante finales del año $2008$). Tanto en el correlograma, como en el correlograma parcial se aprecia un leve estrucutra de ondas, pero que se cree que puede considererarse no significativa por el reducido valor de las caorrelaciones (en todos los casos $\mid < 0.2 \mid$). A pesar de ello, en el correlograma parcial destaca sobre el resto el retardo $17$ (lo cual también sucedía en la serie de partida y por lo que se propuso el modelo de la \autoref{eq:sarima_2}). En cuanto al periodograma, no se aprecia una estructura bien definida con armónicos que destaque sobre el resto. Finalmente, el diagrama de dispersión \emph{rango-media} indica que no hay relación entre el nivel y la dispersión.
 
       \begin{figure}[htb!]
         \centering
@@ -334,11 +334,11 @@
           X-squared = 0.059792, lag = 1, p-value = 0.8068
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia serial en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
-        \label{result:comparison_1_ljung_box_1}
+        \label{result:validation_1_ljung_box_1}
       \end{table}
 
       \paragraph{}
-      En la \autoref{result:comparison_1_ljung_box_1} y en la \autoref{result:comparison_1_ljung_box_12} se incluyen los tests de \emph{Ljung-Box} acerca de la independiencia serial de la serie de residuales, respecto del primer y duodécimo retardos respectivamente. En ambos casos aceptamos la hipótesis de independencia por no tener indicios suficientes para el rechazo ($pvalor > 0.8$ en ambos casos). Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_1_r}
+      En la \autoref{result:validation_1_ljung_box_1} y en la \autoref{result:validation_1_ljung_box_12} se incluyen los tests de \emph{Ljung-Box} acerca de la independiencia serial de la serie de residuales, respecto del primer y duodécimo retardos respectivamente. En ambos casos aceptamos la hipótesis de independencia por no tener indicios suficientes para el rechazo ($pvalor > 0.8$ en ambos casos). Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_1_r}
 
       \begin{table}[htb!]
         \begin{Verbatim}
@@ -346,7 +346,7 @@
           X-squared = 5.9799, lag = 12, p-value = 0.9171
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia estacional en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
-        \label{result:comparison_1_ljung_box_12}
+        \label{result:validation_1_ljung_box_12}
       \end{table}
 
       \paragraph{}
@@ -360,7 +360,7 @@
       \end{figure}
 
       \paragraph{}
-      Como alternativa al gráfico \emph{cuantil-cuantil} de la \autoref{img:validation_1_normality}, en la \autoref{result:comparison_1_lilliefors} y en la \autoref{result:comparison_1_sf} referidas a los resultados de los tests de \emph{Lilliefors} y \emph{Shapiro-Francia} respectivamente. Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_1_r}. Para el caso de \emph{Lilliefors} el pvalor es $0.109$, por lo que no rechazamos la hipótesis de normalidad (por poco). Sin embargo, para el caso de \emph{Shapiro-Francia}, nos vemos obligados a rechazar dicha hipótesis. Este último es un test mucho menos conservador que el primero, por tanto, los resultados son coherentes.
+      Como alternativa al gráfico \emph{cuantil-cuantil} de la \autoref{img:validation_1_normality}, en la \autoref{result:validation_1_lilliefors} y en la \autoref{result:validation_1_sf} referidas a los resultados de los tests de \emph{Lilliefors} y \emph{Shapiro-Francia} respectivamente. Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_1_r}. Para el caso de \emph{Lilliefors} el pvalor es $0.109$, por lo que no rechazamos la hipótesis de normalidad (por poco). Sin embargo, para el caso de \emph{Shapiro-Francia}, nos vemos obligados a rechazar dicha hipótesis. Este último es un test mucho menos conservador que el primero, por tanto, los resultados son coherentes.
 
       \paragraph{}
       La razón por la cual estos pvalores son tan bajos, se cree que se debe al excesivo apuntamiento de la serie de residuales que provoca la falta de normalidad. Sin embargo, el  ajuste se considera adecuado, por la independencia entre observaciones, así como la simetría de su distribución.
@@ -371,7 +371,7 @@
           D = 0.062944, p-value = 0.109
         \end{Verbatim}
         \caption{Resultados del test de \emph{Lilliefors} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
-        \label{result:comparison_1_lilliefors}
+        \label{result:validation_1_lilliefors}
       \end{table}
 
       \begin{table}[htb!]
@@ -380,7 +380,7 @@
           W = 0.98217, p-value = 0.03111
         \end{Verbatim}
         \caption{Resultados del test de \emph{Shapiro-Francia} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}
-        \label{result:comparison_1_sf}
+        \label{result:validation_1_sf}
       \end{table}
 
       \paragraph{}
@@ -410,13 +410,13 @@
       \end{table}
 
       \paragraph{}
-      En la \autoref{img:validation_2_metrics} se recogen distintos estadísticos acerca de la calidad de ajuste del módelo, útiles para realizar comparaciones entre distintos modelos. Puesto que el objetivo de esta sección es el ajuste y validación, se comentarán dichos resultados posteriormente.
+      En la \autoref{table:validation_2_metrics} se recogen distintos estadísticos acerca de la calidad de ajuste del módelo, útiles para realizar comparaciones entre distintos modelos. Puesto que el objetivo de esta sección es el ajuste y validación, se comentarán dichos resultados posteriormente.
 
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.3\textwidth]{validation-2-metrics}
         \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
-        \label{img:validation_2_metrics}
+        \label{table:validation_2_metrics}
       \end{table}
 
       \paragraph{}
@@ -438,11 +438,11 @@
           X-squared = 0.055242, lag = 1, p-value = 0.8142
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia serial en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
-        \label{result:comparison_2_ljung_box_1}
+        \label{result:validation_2_ljung_box_1}
       \end{table}
 
       \paragraph{}
-      En la \autoref{result:comparison_2_ljung_box_1} y en la \autoref{result:comparison_2_ljung_box_12} se incluyen los tests de \emph{Ljung-Box} acerca de la independiencia serial de la serie de residuales, respecto del primer y duodécimo retardos respectivamente. En ambos casos aceptamos la hipótesis de independencia por no tener indicios suficientes para el rechazo ($pvalor > 0.8$ en ambos casos). Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_2_r}
+      En la \autoref{result:validation_2_ljung_box_1} y en la \autoref{result:validation_2_ljung_box_12} se incluyen los tests de \emph{Ljung-Box} acerca de la independiencia serial de la serie de residuales, respecto del primer y duodécimo retardos respectivamente. En ambos casos aceptamos la hipótesis de independencia por no tener indicios suficientes para el rechazo ($pvalor > 0.8$ en ambos casos). Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_2_r}
 
       \begin{table}[htb!]
         \begin{Verbatim}
@@ -450,7 +450,7 @@
           X-squared = 7.6285, lag = 12, p-value = 0.8134
         \end{Verbatim}
         \caption{Resultados del test de \emph{Ljung-Box} de dependencia estacional en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
-        \label{result:comparison_2_ljung_box_12}
+        \label{result:validation_2_ljung_box_12}
       \end{table}
 
       \paragraph{}
@@ -464,7 +464,7 @@
       \end{figure}
 
       \paragraph{}
-      Al igual que en la anterior sección, como alternativa al gráfico \emph{cuantil-cuantil} de la \autoref{img:validation_2_normality}, en la \autoref{result:comparison_2_lilliefors} y en la \autoref{result:comparison_2_sf} referidas a los resultados de los tests de \emph{Lilliefors} y \emph{Shapiro-Francia} respectivamente. Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_2_r}. Para el caso de \emph{Lilliefors} el pvalor es $0.2067$, por lo que no rechazamos la hipótesis de normalidad (por poco). Sin embargo, para el caso de \emph{Shapiro-Francia}, nos vemos obligados a rechazar dicha hipótesis. Este último es un test mucho menos conservador que el primero, por tanto, los resultados son coherentes.
+      Al igual que en la anterior sección, como alternativa al gráfico \emph{cuantil-cuantil} de la \autoref{img:validation_2_normality}, en la \autoref{result:validation_2_lilliefors} y en la \autoref{result:validation_2_sf} referidas a los resultados de los tests de \emph{Lilliefors} y \emph{Shapiro-Francia} respectivamente. Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_2_r}. Para el caso de \emph{Lilliefors} el pvalor es $0.2067$, por lo que no rechazamos la hipótesis de normalidad (por poco). Sin embargo, para el caso de \emph{Shapiro-Francia}, nos vemos obligados a rechazar dicha hipótesis. Este último es un test mucho menos conservador que el primero, por tanto, los resultados son coherentes.
 
       \paragraph{}
       La razón por la cual estos pvalores son tan bajos, se cree que se debe al excesivo apuntamiento de la serie de residuales que provoca la falta de normalidad. Sin embargo, el  ajuste se considera adecuado, por la independencia entre observaciones, así como la simetría de su distribución.
@@ -475,7 +475,7 @@
           D = 0.056905, p-value = 0.2067
         \end{Verbatim}
         \caption{Resultados del test de \emph{Lilliefors} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
-        \label{result:comparison_2_lilliefors}
+        \label{result:validation_2_lilliefors}
       \end{table}
 
       \begin{table}[htb!]
@@ -484,7 +484,7 @@
           W = 0.98119, p-value = 0.02422
         \end{Verbatim}
         \caption{Resultados del test de \emph{Shapiro-Francia} de normalidad en los residuales ajustados por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
-        \label{result:comparison_2_sf}
+        \label{result:validation_2_sf}
       \end{table}
 
       \paragraph{}
@@ -544,9 +544,35 @@
 
   \section{Comparación de modelos}
   \label{sec:comparison}
-    \paragraph{}
-    [TODO]
 
+    \paragraph{}
+    Tras la fase de validación de los modelos, la cual superaron dos de los cuatro propuestos, en esta sección se procede a la comparación de estos para tratar de seleccionar aquel que represente en mejor el comportamiento de los datos observados de la serie. Los dos modelos que serán comparados son los siguientes:
+
+    \begin{itemize}
+      \item $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$
+      \item $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$
+    \end{itemize}
+
+    \paragraph{}
+    Para la comparación de los modelos existen distintas alternativas. En este caso, se compararán utilizando las tablas de estadísticos de ajustes del modelo, generadas en la fase de ajuste y validación (\autoref{sec:fitting}). Además, se analizará la calidad de predicción de los modelos, utilizando la \emph{suma de cuadrados del error de predicción}. Posteriormente, se estudiará la la amplitud de los intervalos de predicción de los modelos.
+
+    \paragraph{}
+    Tal y como se indicó anteriormente, en la \autoref{table:validation_1_metrics} y en la \autoref{table:validation_2_metrics} se muestran distintos estadísticos de resumen sobre la calidad del ajuste de la serie. En la \autoref{table:comparison_metrics} se resumen los más característicos. Tal y como podemos apreciar, las varianzas residuales estimadas en ambos modelos son muy similares y, por ser modelos anidados, la varianza del error de $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ es menor. En cuanto al criterio de \emph{Akaike}, este también es menor en dicho modelo. Sin embargo, al igual que para el caso de las varianzas, estas diferencias son muy reducidas (se recomiendo no tener en cuenta el criterio de \emph{Akaike} cuando las diferencias son infereiores a $3$.). Por último, el criterio Bayesiano de \emph{Schwarz} otorga ventaja al modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$, aunque nuevamente de manera muy poco significativa. La razón de que el criterio Bayesiano sea opuesta al de \emph{Akaike} es la mayor penalización en el número de parámetros que se lleva a cabo en este caso.
+
+    \begin{table}[htb!]
+      \centering
+      \begin{tabular}{|l|r|r|r|}
+        \hline
+        \textbf{Modelo} & \textbf{$\widehat{\sigma}^2$} & \textbf{AIC} & \textbf{BIC} \\ \hline
+        $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ & $9.25$ & $853.5882$ & $859.7242$ \\ \hline
+        $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ & $9.04$ & $851.1135$ & $860.4674$ \\ \hline
+      \end{tabular}
+      \caption{Estadísticos de ajuste de los modelos validados}
+      \label{table:comparison_metrics}
+    \end{table}
+
+    \paragraph{}
+    Puesto que los estadísticos de ajuste no han aportado argumentos en favor o en contra para ninguno de los modelos, se va a proceder a realizar la comparación desde el punto de vista de las predicciones. Para ello, tal y como se ha indicado anteriormente, se utilizará la \emph{suma de cuadrados del error de predicción}, junto con la amplitud de los intervalos de predicción.
 
     \paragraph{}
     Para calcular el $SSE_p$, primero explicaremos resumidamente qué es así como en qué está basado. El $SSE_p$ es se corresponde con el cálculo de una medida para comparar la capacidad de predicción de un modelo de serie temporale. Se trata de predecir observaciones de una serie estacional de periodo $s$, para medir la capacidad de predicción de un modelo ajustado a dicha serie.
@@ -565,9 +591,9 @@
     \end{equation}
 
     \paragraph{}
-    [TODO]
+    Para el cálculo de la suma de errores de predicción primero se han realizado primeramente las predicciones para ambos modelos, reservando las $12$ últimas observaciones (que además son las $12$ que se han predicho), lo cual se ha llevado a cabo a partir de el \autoref{code:comparison_sas}. A partir de dichas sentencias se han obtenidos las predicciones, las cuales se muestran en la \autoref{table:comparison_1} y en la \autoref{table:comparison_1} para cada modelo respectivamente (se han omitido las primeras observaciones). Entonces, para calcular la \emph{suma de cuadrados del error de predicción}, basta con llevar a cabo la suma de los cuadrados de las columna \texttt{Residuo} en cada caso. Esto se ha llevado a cabo utilizando el \autoref{code:comparison_r}.
 
-    \begin{table}[htb!]
+    \begin{table}[hp!]
       \centering
       \begin{tabular}{|l|r|r|r|r|r|r|}
           \hline
@@ -579,13 +605,10 @@
           \\\hline
       \end{tabular}
       \caption{Predicción $12$ observaciones hacia delante, reservando las $12$ últimas para calcular el $SSE_p$ de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
-      \label{table:comparison-1}
+      \label{table:comparison_1}
     \end{table}
 
-    \paragraph{}
-    [TODO]
-
-    \begin{table}[htb!]
+    \begin{table}[hp!]
       \centering
       \begin{tabular}{|l|r|r|r|r|r|r|}
           \hline
@@ -597,11 +620,11 @@
           \\\hline
       \end{tabular}
       \caption{Predicción $12$ observaciones hacia delante, reservando las $12$ últimas para calcular el $SSE_p$ de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 1, 1)_{17}$.}
-      \label{table:comparison-2}
+      \label{table:comparison_2}
     \end{table}
 
     \paragraph{}
-    [TODO]
+    En la \autoref{table:sse_p} se muestran los errores de predicción de cada modelo. Como vemos, el del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ es menor, por lo tanto intuimos que las predicciones de este tenderán a ser mejores.
 
     \begin{table}[htb!]
       \centering
@@ -619,7 +642,7 @@
     \end{table}
 
     \paragraph{}
-    [TODO]
+    Otro de los puntos a tener en cuenta es la amplitud de los intervalos de predicción obtenidos en cada modelo, dado que en un gran número de ocasiones es más interesante conocer en torno a qué valores se encontrará una nueva observación que el valor exacto que tendrá la misma. Es por ello que en la \autoref{img:ci_amplitude} se muestra una comparativa entre los modelos dos modelos de los intervalos de predicción para las $12$ observaciones predichas. En esta representación se han centrado los datos respecto de los datos observados para tratar de eliminar la forma de la serie en la misma y fijarse únicamente en los residuales. Tal y como se puede ver, la predicción del modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ se encuentra más cercana a los datos, lo cual sirve como confirmación para los resultados de la \emph{suma de cuadrados del error de predicción} de la \autoref{table:sse_p}. Sin embargo, esta representación no proporciona demasiada información acerca de la amplitud de los intervalos, ya que parecen muy similares para ambos modelos.
 
     \begin{figure}[htb!]
       \centering
@@ -629,19 +652,30 @@
     \end{figure}
 
     \paragraph{}
-    [TODO]
+    Para contrastar la amplitud de los intervalos de predicción de una manera más rigurosa, se ha llevado a cabo el test \emph{t de student} descrito en la \autoref{eq:amplitude_test}. Dicho test se basa en la comparación de la amplitud de ambos modelos, donde el modelo $1$ será $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y el $2$ será $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$. Este test se llevará a cabo sobre las $12$ últimas predicciones, ya que estas son referidas a observaciones desconocidas (en los modelos ajustados para la comparación). A pesar de no serlo, asumiremos que las observaciones son independientes entre si para poder llevar a cabo el test.
+
+    \begin{equation}
+    \label{eq:amplitude_test}
+      \begin{split}
+        H_0: U_1 - L_1 = U_2 - L_2 \\
+        H_1: U_1 - L_1 \neq U_2 - L_2 \\
+      \end{split}
+    \end{equation}
+
+    \paragraph{}
+    El test de la \autoref{eq:amplitude_test} se han llevado a cabo utilizando el \autoref{code:comparison_r}, y el resultado del mismo se muestra en la \autoref{result:comparison_ci_zero_mean}. El pvalor indica que tenemos que rechazar la hipótesis de igualdad en la amplitud de los intervalos de predicción. En concreto, se indica que la amplitud del intervalo para el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ es al menos $0.36$ puntos mayor. Nótese que la hipótesis de independencia de las observaciones no se cumple totalmente, por lo que debemos tomar estos resultados con mucha cautela.
 
     \begin{table}
       \begin{Verbatim}
         One Sample t-test
 
-        t = -0.061898, df = 166, p-value = 0.9507
+        t = 10.377, df = 11, p-value = 5.101e-07
         alternative hypothesis: true mean is not equal to 0
         95 percent confidence interval:
-        -0.5909606  0.5550325
+         0.2687731 0.4134798
         sample estimates:
         mean of x
-        -0.01796407
+        0.3411265
       \end{Verbatim}
       \caption{Resultados del test \emph{t de student} sobre la media nula ($H_0: \mu = 0$) para la diferencia entre amplitudes en los intervalos de predicción para los modelos $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$ y $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
       \label{result:comparison_ci_zero_mean}
@@ -661,6 +695,11 @@
       \text{[TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO ]}
     \end{equation}
 
+    \begin{equation}
+    \label{eq:explicit_model_extended}
+      \text{[TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO ]}
+    \end{equation}
+
     Una vez descrito completamente el modelo elegido para realizar las predicciones, ya estamos en codiciones suficientes para llevar a cabo las mismas. Para ello, es necesario escribir la expresión explícita de la predicción con el modelo escogido, la cual se muestra en la ecuación \autoref{eq:predict}.
 
     \begin{equation}
@@ -671,7 +710,7 @@
     \paragraph{}
     Una vez descrita la expresión de predicción, basta con aplicarla de manera secuencial utilizando como base la última observación de los datos, esto es $n = 15 \cdot 12 = 180$. Tra la aplicación secuencial de la ecuación, se consiguen las predicciones que se muestran en la \autoref{table:predictions}, en la columna \texttt{Predicho}. En dicha tabla se han incluido también los datos observados referidos al año $2018$ para poder apreciar la predicción de la serie. También se incluye las cotas inferior y superior con una confianza del $95\%$, las cuales forman los intervalos de predicción del $90\%$. Dicha predicción se ha llevado a cabo utilizando el \autoref{code:predict_sas}.
 
-    \begin{table}[htb!]
+    \begin{table}[hp!]
       \centering
       \begin{tabular}{|l|r|r|r|r|r|r|}
           \hline
@@ -687,7 +726,7 @@
     \end{table}
 
     \paragraph{}
-    Para facilitar la compresión de los resultados, en la \autoref{img:predict_complete} se muestra con una línea la predicción del modelo para toda la serie, indicando en las predicciones futuras los intervalos de predicción del $90\%$. Además, se han incluido los valores observados en forma de puntos. La \autoref{img:predict_ending} se corresponde con una visión ampliada de los años $2018$, $2019$ y $2020$ de las predicciones. Estas imágenes han sido generadas mediante el \autoref{code:predict_r}.
+    Para facilitar la compresión de los resultados, en la \autoref{img:predict_complete} se muestra con una línea la predicción del modelo para toda la serie, indicando en las predicciones futuras los intervalos de predicción del $90\%$. Además, se han incluido los valores observados en forma de puntos. La \autoref{img:predict_ending} se corresponde con una visión ampliada de los años $2018$, $2019$ y $2020$ de las predicciones. Estas imágenes han sido generadas mediante el \autoref{code:predict_r}. Tal y como se puede apreciar, las predicciónes comienzan a partir de la observación $14$. Esto se debe a las diferenciaciones regular y estacional, que en total conllevan la pérdida de $13$ observaciones.
 
     \begin{figure}[htb!]
       \centering
@@ -706,7 +745,7 @@
     \paragraph{}
     En la \autoref{img:predict_ending} se puede apreciar como las predicciones del modelo escogido siguen un comportamiento muy próximo a las que sigue la serie durante los años observados, lo cual es el comportamiento esperado. En este caso, es algo natural dado que la serie presenta una estacionalidad de periodo anula claramente marcada, tal y como se indicó en la fase descriptiva. Otra de las características que llaman la atención de las predicciones del modelo es la progresiva reducción del nivel. Esta se puede comprobar de manera más adecuada en la \autoref{img:predict_complete}, que muestra las predicciones para la serie completa. Una interpretación para este fenómeno podría ser que (si el modelo realmente se ajusta a la realidad) la frecuencia de búsquedas de la palabra clave \texttt{Weight Loss} decrecerá, lo cual podría ser un reflejo del indicador de la importancia que la población da a la preocupación por su estado de forma física. Por último, se puede comprobar que los intervalos de predicción de la serie aumentan conforme se alejan de los últimos datos observados de la serie, lo cual es algo coherente dado que la varianza de las predicciones aumenta conforme, estas se alejan de los datos observados.
 
-  \newpage
+  \clearpage
   \appendix
   \section{Código Fuente}
   \label{sec:code}
