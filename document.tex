@@ -199,7 +199,7 @@
         \paragraph{}
         Por último, se desea comprobar si la media de la serie puede ser considerada significativamente distinta de $0$, en cuyo caso deberíamos ajustar un modelo con término independiente. Para ello, se ha llevado a cabo un test \emph{t de student}, tras el cual se ha obtenido un valor $t_{obs} = -0.061898$ lo cual indica el $pvalor = 0.9507$, no teniendo evidencias para el rechazo. Dicho test se incluye en el \autoref{code:descriptive_r}. Además, a continuación se incluye el resultado de dicho test:
 
-        \begin{table}
+        \begin{table}[htb!]
           \begin{Verbatim}
             One Sample t-test
             t = -0.061898, df = 166, p-value = 0.9507
@@ -232,7 +232,7 @@
       \end{equation}
 
       \paragraph{}
-      Puesto que anteriormente se indicó que era necesaria una diferenciación regular y otra estacional (de longitud $12$) en la \autoref{sec:regular_seasonal_difference}, sabemos que los modelos proputestos serán de la forma $\text{SARIMA}(p, 1, q)(P, 1, Q)_{12}...(P_q, D_q, Q_q)_{s_q}$. Para proponer modelos, nos vamos a fijar en la \autoref{img:weightloss_diff_1_12}, que recoge distintos gráficos sobre la serie diferenciada regular y estacionalmente. En concreto, nos fijaremos sobre todo tanto en el correlograma como en el correlograma parcial, el cual sirve de guía a la hora de elegir órdenes de las componentes autorregresivas y de medias móviles.
+      Puesto que anteriormente se indicó que era necesaria una diferenciación regular y otra estacional (de longitud $12$) en la \autoref{sec:regular_seasonal_difference}, sabemos que los modelos propuestos tendrán que ser de la forma $\text{SARIMA}(p, 1, q)(P, 1, Q)_{12}...(P_q, D_q, Q_q)_{s_q}$. Para proponer modelos, nos vamos a fijar en la \autoref{img:weightloss_diff_1_12}, que recoge distintos gráficos sobre la serie diferenciada regular y estacionalmente. En concreto, nos fijaremos sobre todo tanto en el correlograma como en el correlograma parcial, el cual sirve de guía a la hora de elegir órdenes de las componentes autorregresivas y de medias móviles.
 
       \paragraph{}
       El primer modelo que se propone es el indicado en la \autoref{eq:sarima_1}, el cual se basa en la utilización de $1$ parámetro de media móvil en la parte regular y otro en la parte estacional de periodicidad $12$. La justificación detrás de este modelo es la siguiente: se pueden apreciar decrecimientos exponenciales en el diagrama de correlación parcial que comienzan en los retardos $1$ y $12$. Además, se dan valores elevados en el correlograma en las correlaciones $1$ y $12$, lo cual es implica que un modelo de esta forma podría ajustarse de manera coherente a la serie.
@@ -267,6 +267,9 @@
       \end{equation}
 
       \paragraph{}
+      Nótese que no es adecuado proponer modelos de la forma $\text{SARIMA}(1, 0, q)(1, 0, Q_{12})_{12}...(P_q, D_q, Q_q)_{s_q}$, es decir, substituyendo las diferenciaciones por $1$ parámetros autoregresivos. Lo que sucedería sería que se estaría incumpliendo la condición de estacionaridad. Además, los parámetros autoregresivos serían próximos a $1$, ya que estarían tratando de hacer dicho papel. Una consecuencia de esto es que el error estándar de estos sería extremadamente elevado. Por tanto, se concluye que estos modelos no deberían ser propuestos
+
+      \paragraph{}
       El siguiente paso es proceder al ajuste de los modelos propuestos, prestando especial atención a la significancia de los tests para los parámetros en cada modelo, así como a los residuos obtenidos, los cuales permitirán validar (e invalidar) aquellos modelos que no se ajusten de manera satisfactoria a los datos.
 
 
@@ -274,14 +277,16 @@
   \label{sec:fitting}
 
     \paragraph{}
-    Una vez propuestos distintos modelos que podrían ajustar de manera adecuada a la serie, a continuación se procederá al ajuste de los mismos, para ello se utilizará el lenguaje \emph{SAS}.
+    Una vez propuestos distintos modelos que podrían ajustar de manera adecuada a la serie, a continuación se procederá al ajuste de los mismos, para ello se utilizará el lenguaje \emph{SAS}. Para ello, lo primero es cargar el conjunto de datos, lo cual se ha llevado a cabo mediante las sentencias del \autoref{code:import_sas}.
 
+    \paragraph{}
+    Una vez hecho esto, lo siguiente es ajustar los modelos propuestos en la \autoref{sec:proposed_models}. Además, se procederá al estudio de la validez de los mismos, descartando aquellos que no cumplan una serie de requisitos mínimos tales como significancia de sus parámetros, independencia y normalidad. Por lo tanto, procederemos a analizar (y validar si se cumplen las condiciones necesarias) los modelos propuestos.
 
     \subsection{Estimación y Validación de \textbf{$\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$}}
     \label{sec:fitting_1}
 
       \paragraph{}
-      [TODO]
+      Para el ajuste de este modelo en la etapa de validación, se ha utilizado el \autoref{code:validation_1_sas}. Los parámetros ajustados se recogen en la \autoref{table:validation_1_estimation}. Estos son significativos tanto para el caso del parámetro de media móvil en el primer retardo (regular), como para el caso de duodécimo retardo (estacional). Los valores estimados son $0.33162$ y $0.622239$ respectivamente, con errores de $0.07282$ y $0.06576$.
 
       \begin{table}[htb!]
         \centering
@@ -291,7 +296,7 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En cuanto a la matriz de correlaciones entre los parámetros estimados, esta se muestra en la \autoref{table:validation_1_correlations}. Tal y como se puede apreciar la correlación entre estos es extremadamente baja ($0.037 \approx 0$). Por tanto, se puede considerar que son incorrelados entre sí, lo cual elimina problemas de colinearidad (varios parámetros que indican lo mismo).
 
       \begin{table}[htb!]
         \centering
@@ -301,7 +306,7 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En la \autoref{img:validation_1_metrics} se recogen distintos estadísticos acerca de la calidad de ajuste del módelo, útiles para realizar comparaciones entre distintos modelos. Puesto que el objetivo de esta sección es el ajuste y validación, se comentarán dichos resultados posteriormente.
 
       \begin{table}[htb!]
         \centering
@@ -311,19 +316,19 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En la \autoref{img:validation_1_residuals} (generada a partir del \autoref{code:validation_1_r}) se resume la serie generada por los residuales del ajuste del modelo. A partir del gráfico de la serie se aprecia el comportamiento aleatorio de los residuales. Sin embargo, sigue presente el aumento de la varianza en torno al comienzo del primero cuarto de la serie (correspondiente al aumento de nivel durante finales del año $2008$). Tanto en el correlograma, como en el correlograma parcial se aprecia un leve estrucutra de ondas, pero que se cree que puede considererarse no significativa por el reducido valor de las caorrelaciones (en todos los casos $\mid < 0.1 \mid$). En cuanto al periodograma, no se aprecia una estructura bien definida con armónicos que destaque sobre el resto. Finalmente, el diagrama de dispersión \emph{rango-media} indica que no hay relación entre el nivel y la dispersión.
 
       \begin{figure}[htb!]
         \centering
         \includegraphics[width=\textwidth]{validation-1-residuals}
         \caption{Gráfico de la serie, Correlograma, Correlograma Parcial, Periodograma y diagrama de dispersión \emph{rango-media} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
-        \label{fig:validation_1_residuals}
+        \label{img:validation_1_residuals}
       \end{figure}
 
       \paragraph{}
-      [TODO]
+      Por lo tanto, se cree que la serie de los residuales podría ser considerada un ruido blanco a partir de los gráficos de la \autoref{img:validation_1_residuals}. Sin embargo, para confirmar dicha hipótesis se ha decidido realizar distintos contrastes.
 
-      \begin{table}
+      \begin{table}[htb!]
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 0.059792, lag = 1, p-value = 0.8068
@@ -333,9 +338,9 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En la \autoref{result:comparison_1_ljung_box_1} y en la \autoref{result:comparison_1_ljung_box_12} se incluyen los tests de \emph{Ljung-Box} acerca de la independiencia serial de la serie de residuales, respecto del primer y duodécimo retardos respectivamente. En ambos casos aceptamos la hipótesis de independencia por no tener indicios suficientes para el rechazo ($pvalor > 0.8$ en ambos casos). Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_1_r}
 
-      \begin{table}
+      \begin{table}[htb!]
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 5.9799, lag = 12, p-value = 0.9171
@@ -345,19 +350,22 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      Otra de las hipótesis que deben cumplir los residuales de un modelo ajustado es la de normalidad. En la \autoref{img:validation_1_normality} se muestra un gráfico \emph{cuantil-cuantil} de normalidad. A partir de este, podemos apreciar un muy buen ajuste en la parte entral de la distribución. Sin embargo, en los extremos se puede ver que el ajuste no es tan adecuado (aunque si que es simétrico respecto de cada lado). Se puede comprobar que dichas desviaciones se deben a que la distribución de los residuales es más apuntada que la normal (lo cual puede ser considerado un hecho positivo).
 
       \begin{figure}[htb!]
         \centering
         \includegraphics[width=0.7\textwidth]{validation-1-normality}
-        \caption{Gráfico de normalidad \emph{QQ-plot} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
+        \caption{Gráfico de normalidad \emph{cuantil-cuantil} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}$.}
         \label{img:validation_1_normality}
       \end{figure}
 
       \paragraph{}
-      [TODO]
+      Como alternativa al gráfico \emph{cuantil-cuantil} de la \autoref{img:validation_1_normality}, en la \autoref{result:comparison_1_lilliefors} y en la \autoref{result:comparison_1_sf} referidas a los resultados de los tests de \emph{Lilliefors} y \emph{Shapiro-Francia} respectivamente. Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_1_r}. Para el caso de \emph{Lilliefors} el pvalor es $0.109$, por lo que no rechazamos la hipótesis de normalidad (por poco). Sin embargo, para el caso de \emph{Shapiro-Francia}, nos vemos obligados a rechazar dicha hipótesis. Este último es un test mucho menos conservador que el primero, por tanto, los resultados son coherentes.
 
-      \begin{table}
+      \paragraph{}
+      La razón por la cual estos pvalores son tan bajos, se cree que se debe al excesivo apuntamiento de la serie de residuales que provoca la falta de normalidad. Sin embargo, el  ajuste se considera adecuado, por la independencia entre observaciones, así como la simetría de su distribución.
+
+      \begin{table}[htb!]
         \begin{Verbatim}
           Lilliefors (Kolmogorov-Smirnov) normality test
           D = 0.062944, p-value = 0.109
@@ -366,10 +374,7 @@
         \label{result:comparison_1_lilliefors}
       \end{table}
 
-      \paragraph{}
-      [TODO]
-
-      \begin{table}
+      \begin{table}[htb!]
         \begin{Verbatim}
           Shapiro-Francia normality test
           W = 0.98217, p-value = 0.03111
@@ -379,13 +384,13 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      Puesto que el modelo cumple todas las características para ser considerado un modelo válido, en la \autoref{sec:comparison} será comparado con el resto de modelos válidos en la fase de selección de modelos. A pesar de no haberse podido confirmar la hipótesis de normalidad en los residuales (por el escesivo apuntamiento de la distribución), se considera un modelo válido.
 
     \subsection{Estimación y Validación de \textbf{$\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}}
     \label{sec:fitting_2}
 
       \paragraph{}
-      [TODO]
+      Para el ajuste de este modelo en la etapa de validación, se ha utilizado el \autoref{code:validation_2_sas}. Los parámetros ajustados se recogen en la \autoref{table:validation_2_estimation}. Estos son significativos para el caso del parámetro de media móvil en el primer retardo (regular), para el caso de duodécimo retardo (estacional) y para el parámetro referido al décimo septimo retardo. Los valores estimados son $0.33629$, $0.62106$ y $-0.15874$ respectivamente, con errores de $0.07278$, $0.06586$ y $0.07817$.
 
       \begin{table}[htb!]
         \centering
@@ -395,7 +400,7 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En cuanto a la matriz de correlaciones entre los parámetros estimados, esta se muestra en la \autoref{table:validation_2_correlations}. Tal y como se puede apreciar la correlación entre estos es extremadamente baja. Por tanto, se puede considerar que son incorrelados entre sí, lo cual elimina problemas de colinearidad (varios parámetros que indican lo mismo).
 
       \begin{table}[htb!]
         \centering
@@ -405,7 +410,7 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En la \autoref{img:validation_2_metrics} se recogen distintos estadísticos acerca de la calidad de ajuste del módelo, útiles para realizar comparaciones entre distintos modelos. Puesto que el objetivo de esta sección es el ajuste y validación, se comentarán dichos resultados posteriormente.
 
       \begin{table}[htb!]
         \centering
@@ -415,7 +420,7 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En la \autoref{img:validation_2_residuals} (generada a partir del \autoref{code:validation_2_r}) se resume la serie generada por los residuales del ajuste del modelo. A partir del gráfico de la serie se aprecia el comportamiento aleatorio de los residuales. Sin embargo, sigue presente el aumento de la varianza en torno al comienzo del primero cuarto de la serie (correspondiente al aumento de nivel durante finales del año $2008$). Tanto en el correlograma, como en el correlograma parcial se aprecia un leve estrucutra de ondas, pero que se cree que puede considererarse no significativa por el reducido valor de las caorrelaciones (en todos los casos menor que $0.15$ en valor absoluto). En cuanto al periodograma, no se aprecia una estructura bien definida con armónicos que destaque sobre el resto. Finalmente, el diagrama de dispersión \emph{rango-media} indica que no hay relación entre el nivel y la dispersión.
 
       \begin{figure}[htb!]
         \centering
@@ -425,9 +430,9 @@
       \end{figure}
 
       \paragraph{}
-      [TODO]
+      Por lo tanto, se cree que la serie de los residuales podría ser considerada un ruido blanco a partir de los gráficos de la \autoref{img:validation_2_residuals}. Sin embargo, para confirmar dicha hipótesis se ha decidido realizar distintos contrastes.
 
-      \begin{table}
+      \begin{table}[htb!]
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 0.055242, lag = 1, p-value = 0.8142
@@ -437,9 +442,9 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En la \autoref{result:comparison_2_ljung_box_1} y en la \autoref{result:comparison_2_ljung_box_12} se incluyen los tests de \emph{Ljung-Box} acerca de la independiencia serial de la serie de residuales, respecto del primer y duodécimo retardos respectivamente. En ambos casos aceptamos la hipótesis de independencia por no tener indicios suficientes para el rechazo ($pvalor > 0.8$ en ambos casos). Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_2_r}
 
-      \begin{table}
+      \begin{table}[htb!]
         \begin{Verbatim}
           Box-Ljung test
           X-squared = 7.6285, lag = 12, p-value = 0.8134
@@ -449,19 +454,22 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      Otra de las hipótesis que deben cumplir los residuales de un modelo ajustado es la de normalidad. En la \autoref{img:validation_2_normality} se muestra un gráfico \emph{cuantil-cuantil} de normalidad. A partir de este, podemos apreciar un muy buen ajuste en la parte entral de la distribución. Sin embargo, en los extremos se puede ver que el ajuste no es tan adecuado (aunque si que es simétrico respecto de cada lado). Se puede comprobar que dichas desviaciones se deben a que la distribución de los residuales es más apuntada que la normal (lo cual puede ser considerado un hecho positivo).
 
       \begin{figure}[htb!]
         \centering
         \includegraphics[width=0.7\textwidth]{validation-2-normality}
-        \caption{Gráfico de normalidad \emph{QQ-plot} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
+        \caption{Gráfico de normalidad \emph{cuantil-cuantil} para la serie de residuales ajustado por el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
         \label{img:validation_2_normality}
       \end{figure}
 
       \paragraph{}
-      [TODO]
+      Al igual que en la anterior sección, como alternativa al gráfico \emph{cuantil-cuantil} de la \autoref{img:validation_2_normality}, en la \autoref{result:comparison_2_lilliefors} y en la \autoref{result:comparison_2_sf} referidas a los resultados de los tests de \emph{Lilliefors} y \emph{Shapiro-Francia} respectivamente. Las sentencias necesarias para la reproducción de estos tests se incluyen en el \autoref{code:validation_2_r}. Para el caso de \emph{Lilliefors} el pvalor es $0.2067$, por lo que no rechazamos la hipótesis de normalidad (por poco). Sin embargo, para el caso de \emph{Shapiro-Francia}, nos vemos obligados a rechazar dicha hipótesis. Este último es un test mucho menos conservador que el primero, por tanto, los resultados son coherentes.
 
-      \begin{table}
+      \paragraph{}
+      La razón por la cual estos pvalores son tan bajos, se cree que se debe al excesivo apuntamiento de la serie de residuales que provoca la falta de normalidad. Sin embargo, el  ajuste se considera adecuado, por la independencia entre observaciones, así como la simetría de su distribución.
+
+      \begin{table}[htb!]
         \begin{Verbatim}
           Lilliefors (Kolmogorov-Smirnov) normality test
           D = 0.056905, p-value = 0.2067
@@ -470,10 +478,7 @@
         \label{result:comparison_2_lilliefors}
       \end{table}
 
-      \paragraph{}
-      [TODO]
-
-      \begin{table}
+      \begin{table}[htb!]
         \begin{Verbatim}
           Shapiro-Francia normality test
           W = 0.98119, p-value = 0.02422
@@ -483,13 +488,13 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      Puesto que el modelo cumple todas las características para ser considerado un modelo válido, en la \autoref{sec:comparison} será comparado con el resto de modelos válidos en la fase de selección de modelos. A pesar de no haberse podido confirmar la hipótesis de normalidad en los residuales (por el escesivo apuntamiento de la distribución), se considera un modelo válido.
 
     \subsection{Estimación y Validación de \textbf{$\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}$}}
     \label{sec:fitting_3}
 
       \paragraph{}
-      [TODO]
+      Para el ajuste de este modelo en la etapa de validación, se ha utilizado el \autoref{code:validation_3_sas}. Los parámetros ajustados se recogen en la \autoref{table:validation_3_estimation}. Estos son significativos para el caso del parámetro de media móvil en el primer retardo (regular), para el caso de duodécimo retardo (estacional) y para el parámetro referido al décimo septimo retardo. Los valores estimados son $0.46545$ y $0.62276$ respectivamente, con errores de $0.20516$ y $0.06616$.
 
       \begin{table}[htb!]
         \centering
@@ -499,7 +504,7 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En cuanto al parámetro autoregresivo, este no es significativamente distinto de cero (con un pvalor de $0.4947$). Por esta razón, no podemos validar el modelo, ya que siempre podrémos encontrar un modelo más sencillo que nos permita obtener los mismos resultados. Además, tal y como se puede ver en la \autoref{table:validation_3_correlations}, el parámetro autoregresivo presenta una elevada correlación con el parámetro de media móvil en su mismo retardo, lo cual no es una buena señal.
 
       \begin{table}[htb!]
         \centering
@@ -509,54 +514,33 @@
       \end{table}
 
       \paragraph{}
-      [TODO]
-
-      \begin{table}[htb!]
-        \centering
-        \includegraphics[width=0.3\textwidth]{validation-3-metrics}
-        \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}$.}
-        \label{img:validation_3_metrics}
-      \end{table}
-
-      \paragraph{}
-      [TODO]
+      Por las razones descritas, nos vemos obligados a invalidar el modelo, por lo que no será utilizado en la fase de comparación de la \autoref{sec:comparison}.
 
     \subsection{Estimación y Validación de $\textbf{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$}
     \label{sec:fitting_4}
 
       \paragraph{}
-      [TODO]
+      Para el ajuste de este modelo en la etapa de validación, se ha utilizado el \autoref{code:validation_4_sas}. Los parámetros ajustados se recogen en la \autoref{table:validation_4_estimation}. Estos son significativos para el caso del parámetro de media móvil en el primer retardo (regular), para el caso de duodécimo retardo (estacional) y para el parámetro referido al décimo septimo retardo. Los valores estimados son $0.46122$, $0.62117$ y $-0.15758$ respectivamente, con errores de $0.20376$, $0.06629$ y $0.07845$.
 
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.6\textwidth]{validation-4-estimation}
         \caption{Estimación de los parámetros por el método de \emph{Máxima Verosimilitud} para el modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \emph{weightloss}.}
-        \label{table:validation-4-estimation}
+        \label{table:validation_4_estimation}
       \end{table}
 
       \paragraph{}
-      [TODO]
+      En cuanto al parámetro autoregresivo, este no es significativamente distinto de cero (con un pvalor de $0.51175$). Por esta razón, no podemos validar el modelo, ya que siempre podrémos encontrar un modelo más sencillo que nos permita obtener los mismos resultados. Además, tal y como se puede ver en la \autoref{table:validation_4_correlations}, el parámetro autoregresivo presenta una elevada correlación con el parámetro de media móvil en su mismo retardo, lo cual no es una buena señal.
 
       \begin{table}[htb!]
         \centering
         \includegraphics[width=0.4\textwidth]{validation-4-correlations}
         \caption{Correlación entre los parámetros del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
-        \label{table:validation-4-correlations}
+        \label{table:validation_4_correlations}
       \end{table}
 
       \paragraph{}
-      [TODO]
-
-      \begin{table}[htb!]
-        \centering
-        \includegraphics[width=0.3\textwidth]{validation-4-metrics}
-        \caption{Estadísticos de ajuste del modelo $\text{SARIMA}(1, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$.}
-        \label{img:validation_4_metrics}
-      \end{table}
-
-      \paragraph{}
-      [TODO]
-
+      Por las razones descritas, nos vemos obligados a invalidar el modelo, por lo que no será utilizado en la fase de comparación de la \autoref{sec:comparison}.
 
   \section{Comparación de modelos}
   \label{sec:comparison}
@@ -670,16 +654,28 @@
   \label{sec:prediction}
 
     \paragraph{}
-    [TODO]
+    Una vez realizada la comparación de modelos (donde finalmente se ha decidido que el modelo que generará resultados más cercanos a la realidad es el \textbf{$\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$} por su mayor grado de ajuste a los datos), en esta sección se va a proceder a realizar la predicción de la serie 2 años hacia delante. La expresión extendida de este modelo se incluye en la \autoref{eq:explicit_model}.
+
+    \begin{equation}
+    \label{eq:explicit_model}
+      \text{[TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO ]}
+    \end{equation}
+
+    Una vez descrito completamente el modelo elegido para realizar las predicciones, ya estamos en codiciones suficientes para llevar a cabo las mismas. Para ello, es necesario escribir la expresión explícita de la predicción con el modelo escogido, la cual se muestra en la ecuación \autoref{eq:predict}.
+
+    \begin{equation}
+    \label{eq:predict}
+      \text{[TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO ]}
+    \end{equation}
 
     \paragraph{}
-    [TODO]
+    Una vez descrita la expresión de predicción, basta con aplicarla de manera secuencial utilizando como base la última observación de los datos, esto es $n = 15 \cdot 12 = 180$. Tra la aplicación secuencial de la ecuación, se consiguen las predicciones que se muestran en la \autoref{table:predictions}, en la columna \texttt{Predicho}. En dicha tabla se han incluido también los datos observados referidos al año $2018$ para poder apreciar la predicción de la serie. También se incluye las cotas inferior y superior con una confianza del $95\%$, las cuales forman los intervalos de predicción del $90\%$. Dicha predicción se ha llevado a cabo utilizando el \autoref{code:predict_sas}.
 
     \begin{table}[htb!]
       \centering
       \begin{tabular}{|l|r|r|r|r|r|r|}
           \hline
-          \textbf{Fecha} & \textbf{Obs.} & \textbf{Predicho} & \textbf{Error Est.}& \textbf{L. Inf. ($95\%$)} & \textbf{L. Sup. ($95\%$)}  & \textbf{Residuo}
+          \textbf{Fecha} & \textbf{Obs.} & \textbf{Predicho} & \textbf{Error Est.} & \textbf{L. Inf. ($95\%$)} & \textbf{L. Sup. ($95\%$)}  & \textbf{Residuo}
           \csvreader[
            head to column names,
           ]{res/data/predict-reduced.csv}{}
@@ -690,15 +686,15 @@
       \label{table:predictions}
     \end{table}
 
+    \paragraph{}
+    Para facilitar la compresión de los resultados, en la \autoref{img:predict_complete} se muestra con una línea la predicción del modelo para toda la serie, indicando en las predicciones futuras los intervalos de predicción del $90\%$. Además, se han incluido los valores observados en forma de puntos. La \autoref{img:predict_ending} se corresponde con una visión ampliada de los años $2018$, $2019$ y $2020$ de las predicciones. Estas imágenes han sido generadas mediante el \autoref{code:predict_r}.
+
     \begin{figure}[htb!]
       \centering
       \includegraphics[width=0.7\textwidth]{predict-complete}
       \caption{Predicción $24$ observaciones hacia delante de la serie \texttt{weightloss} utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$. (Serie completa)}
       \label{img:predict_complete}
     \end{figure}
-
-    \paragraph{}
-    [TODO]
 
     \begin{figure}[htb!]
       \centering
@@ -708,8 +704,9 @@
     \end{figure}
 
     \paragraph{}
-    [TODO]
+    En la \autoref{img:predict_ending} se puede apreciar como las predicciones del modelo escogido siguen un comportamiento muy próximo a las que sigue la serie durante los años observados, lo cual es el comportamiento esperado. En este caso, es algo natural dado que la serie presenta una estacionalidad de periodo anula claramente marcada, tal y como se indicó en la fase descriptiva. Otra de las características que llaman la atención de las predicciones del modelo es la progresiva reducción del nivel. Esta se puede comprobar de manera más adecuada en la \autoref{img:predict_complete}, que muestra las predicciones para la serie completa. Una interpretación para este fenómeno podría ser que (si el modelo realmente se ajusta a la realidad) la frecuencia de búsquedas de la palabra clave \texttt{Weight Loss} decrecerá, lo cual podría ser un reflejo del indicador de la importancia que la población da a la preocupación por su estado de forma física. Por último, se puede comprobar que los intervalos de predicción de la serie aumentan conforme se alejan de los últimos datos observados de la serie, lo cual es algo coherente dado que la varianza de las predicciones aumenta conforme, estas se alejan de los datos observados.
 
+  \newpage
   \appendix
   \section{Código Fuente}
   \label{sec:code}
@@ -804,6 +801,13 @@
       \inputminted{SAS}{./res/code/predict.sas}
       \caption{Cálculo de la predicción utilizando el lenguaje \texttt{SAS} de las $24$ observaciones siguientes utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
       \label{code:predict_sas}
+    \end{listing}
+
+    \begin{listing}[H]
+      \centering
+      \inputminted{SAS}{./res/code/predict.r}
+      \caption{Cálculo de la predicción utilizando el lenguaje \texttt{R} de las $24$ observaciones siguientes utilizando el modelo $\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$ sobre la serie \texttt{weightloss}.}
+      \label{code:predict_r}
     \end{listing}
 
 \end{document}
