@@ -688,27 +688,46 @@
   \label{sec:prediction}
 
     \paragraph{}
-    Una vez realizada la comparación de modelos (donde finalmente se ha decidido que el modelo que generará resultados más cercanos a la realidad es el \textbf{$\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$} por su mayor grado de ajuste a los datos), en esta sección se va a proceder a realizar la predicción de la serie 2 años hacia delante. La expresión extendida de este modelo se incluye en la \autoref{eq:explicit_model}.
+    Una vez realizada la comparación de modelos (donde finalmente se ha decidido que el modelo que generará resultados más cercanos a la realidad es el \textbf{$\text{SARIMA}(0, 1, 1)(0, 1, 1)_{12}(0, 0, 1)_{17}$} por su mayor grado de ajuste a los datos), en esta sección se va a proceder a realizar la predicción de la serie 2 años hacia delante. La expresión de este modelo utilizando el operador de retardos se muestra en la \autoref{eq:explicit_model}, en la \autoref{eq:explicit_model_filter} se muestra la representación en forma de filtro.
 
     \begin{equation}
     \label{eq:explicit_model}
-      \text{[TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO ]}
+      (1 - B^{12})(1 - B)X_t = (1 - \theta_{1}B)(1 - \theta_{12}B^{12})(1 - \theta_{17}B^{17})a_t
     \end{equation}
+
+    \begin{equation}
+    \label{eq:explicit_model_filter}
+      X_t = \frac{(1 - \theta_{1}B)(1 - \theta_{12}B^{12})(1 - \theta_{17}B^{17})}{(1 - B^{12})(1 - B)}a_t
+    \end{equation}
+
+    \begin{align*}
+      (1 - B^{12})(1 - B)X_t = (1 - &\theta_{1}B)(1 - \theta_{12}B^{12})(1 - \theta_{17}B^{17})a_t \\ \\
+      (1 - B - B^{12} + B^{13})X_t = (1 - &\theta_{1}B - \theta_{12}B^{12} + \theta_{1}\theta_{12}B^{13} \\
+      &- \theta_{17}B^{17} + \theta_{1}\theta_{17}B^{18} + \theta_{12}\theta_{17}B^{29} - \theta_{1}\theta_{12}\theta_{17}B^{30})a_t \\ \\
+      X_t - X_{t - 1} - X_{t - 12} + X_{t - 13} = a_t - &\theta_{1}a_{t - 1} - \theta_{12}a_{t - 12} + \theta_{1}\theta_{12}a_{t - 13} \\
+      &- \theta_{17}a_{t - 17} + \theta_{1}\theta_{17}a_{t - 18} + \theta_{12}\theta_{17}a_{t - 29} - \theta_{1}\theta_{12}\theta_{17}a_{t - 30}
+    \end{align*}
+
+    \paragraph{}
+     Por último, en la \autoref{eq:explicit_model_extended} se muestra el modelo en su forma extendida.
 
     \begin{equation}
     \label{eq:explicit_model_extended}
-      \text{[TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO ]}
-    \end{equation}
-
-    Una vez descrito completamente el modelo elegido para realizar las predicciones, ya estamos en codiciones suficientes para llevar a cabo las mismas. Para ello, es necesario escribir la expresión explícita de la predicción con el modelo escogido, la cual se muestra en la ecuación \autoref{eq:predict}.
-
-    \begin{equation}
-    \label{eq:predict}
-      \text{[TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO ]}
+      \begin{split}
+        X_t = X_{t - 1} + &X_{t - 12} - X_{t - 13} + a_t - \theta_{1}a_{t - 1} - \theta_{12}a_{t - 12} + \theta_{1}\theta_{12}a_{t - 13} \\
+        &- \theta_{17}a_{t - 17} + \theta_{1}\theta_{17}a_{t - 18} + \theta_{12}\theta_{17}a_{t - 29} - \theta_{1}\theta_{12}\theta_{17}a_{t - 30}
+      \end{split}
     \end{equation}
 
     \paragraph{}
-    Una vez descrita la expresión de predicción, basta con aplicarla de manera secuencial utilizando como base la última observación de los datos, esto es $n = 15 \cdot 12 = 180$. Tra la aplicación secuencial de la ecuación, se consiguen las predicciones que se muestran en la \autoref{table:predictions}, en la columna \texttt{Predicho}. En dicha tabla se han incluido también los datos observados referidos al año $2018$ para poder apreciar la predicción de la serie. También se incluye las cotas inferior y superior con una confianza del $95\%$, las cuales forman los intervalos de predicción del $90\%$. Dicha predicción se ha llevado a cabo utilizando el \autoref{code:predict_sas}.
+    Los parámetros estimados por máxima verosimilitud (extraidos de la \autoref{table:validation_2_estimation}) se muestran a continuación:
+
+    \begin{align*}
+    \label{eq:explicit_model_extended}
+      \widehat{\theta}_{1} = 0.33629 &&  \widehat{\theta}_{12} = 0.62106 && \widehat{\theta}_{17} =-0.15874
+    \end{align*}
+
+    Una vez descrito completamente el modelo, el siguiente paso es aplicar la función de predicción $X_n(k)$ de manera secuencial, utilizando como base la última observación de los datos, esto es $n = 15 \cdot 12 = 180$. Tras la aplicación secuencial de la ecuación, se consiguen las predicciones que se muestran en la \autoref{table:predictions}, en la columna \texttt{Predicho}. En dicha tabla se han incluido también los datos observados referidos al año $2018$ para poder apreciar la predicción de la serie. También se incluye las cotas inferior y superior con una confianza del $95\%$, las cuales forman los intervalos de predicción del $90\%$. Dicha predicción se ha llevado a cabo utilizando el \autoref{code:predict_sas}.
 
     \begin{table}[hp!]
       \centering
